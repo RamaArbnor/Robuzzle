@@ -1,17 +1,29 @@
+import gifAnimation.*;
+
 final color yellow = #F5C825;
 final color darkblue = #1217FF;
 final color red = #E0022F;
 final color green = #04C118;
 final color grey = #313131;
+
 HashMap<String, Screen> mode;
 Screen active;
 
-void setup() {
+Gif myAnimation;
+
+void setup(){
   size(1000, 650);
   // frameRate(30);
 
   mode = new HashMap<String, Screen>();
   createLevel1();
+    
+  myAnimation = new Gif(this, "robotRun.gif");
+  myAnimation.loop();
+  //myAnimation.stop();
+  //myAnimation.play();
+  //myAnimation.ignoreRepeat();
+  
   // createGameOverScreen();
   active = mode.get("level1");
 }
@@ -96,8 +108,7 @@ void createLevel(int number) {
 }
 
 //GAME LOOP
-void draw() {
-
+void draw(){
   //1. UPDATE
   active.update();
 
@@ -106,4 +117,7 @@ void draw() {
 
   //3. RENDER
   active.render();
+  
+  image(myAnimation, 30,30, 30, 30);
+
 }
