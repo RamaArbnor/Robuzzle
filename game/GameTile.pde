@@ -14,10 +14,14 @@ class Tile extends Being {
     //based on the type of tile, set the image
     if(type.equals("#")){
       img = loadImage("assets/solid.png");
+    }else if(type.equals("L")){
+      img = loadImage("assets/leftSolid.png");
+    }else if(type.equals("R")){
+      img = loadImage("assets/rightSolid.png");
     }else if(type.equals("<")){
-      img = loadImage("assets/left.png");
+      img = loadImage("assets/turnLeft.png");
     }else if(type.equals(">")){
-      img = loadImage("assets/right.png");
+      img = loadImage("assets/turnRight.png");
     }else if(type.equals("F")){
       img = loadImage("assets/finish.png");
     }else{
