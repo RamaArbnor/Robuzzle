@@ -17,7 +17,7 @@ void setup(){
 }
 
 void createGameOverScreen(){
-  Screen gameOver = new Screen(yellow);
+  Screen gameOver = new Screen();
   gameOver.register(new TextBeing("GAME OVER", darkblue, 50, new PVector(width/2, height/2)));
 
   ButtonBeing restart = new ButtonBeing("play again", green, 30, new PVector(width/2, 110+height/2), red){
@@ -31,7 +31,7 @@ void createGameOverScreen(){
 }
 
 void createLevel1(){
-  Screen level1 = new Screen(grey);
+  Screen level1 = new Screen();
   //level1.register("Tiles" , new Tile(3, 0));
 
   //read a text file called Level1.txt
