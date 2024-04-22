@@ -15,7 +15,8 @@ class SpawnTile extends Tile {
   @Override
   void update() {
     int currentTime = millis();
-    if (currentTime >= delay && currentTime - lastCallTime >= interval) {
+    if (count > 0 && currentTime >= delay && currentTime - lastCallTime >= interval) {
+      count--;
       print("LMAO");
       lastCallTime = currentTime;
     }

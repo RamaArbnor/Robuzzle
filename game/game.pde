@@ -11,7 +11,7 @@ void setup() {
   // frameRate(30);
 
   mode = new HashMap<String, Screen>();
-  createLevel1();
+  createLevel(1);
   // createGameOverScreen();
   active = mode.get("level1");
 }
@@ -72,7 +72,7 @@ void createLevel(int number) {
         level.register("Tiles", new Tile(i, j, c+""));
         break;
       case 'S':
-        level.register("Tiles", new SpawnTile(i, j, c+"", 4, 2, 3));
+        level.register("Tiles", new SpawnTile(i, j, "#"+"", 4, 3, 3));
         break;
       case '<':
         level.register("Tiles", new Tile(i, j, c+""));
