@@ -40,10 +40,9 @@ void createLevel1(){
     String line = lines[i];
     for(int j = 0; j < line.length(); j++){
       char c = line.charAt(j);
-      if(c == '#'){
-        level1.register("Tiles",new Tile(i,j));
+      if(c != ' '){
+        level1.register("Tiles",new Tile(i,j, c+""));
       }
-
     }
   }
   mode.put("level1", level1);
