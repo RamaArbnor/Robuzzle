@@ -1,13 +1,28 @@
 class Tile extends Being {
-    int row;
-    int col;
-    String type;
+
+  int row;
+  int col;
+  String type;
+  PImage img;
+
   Tile(int i, int j, String t){
     super();
     row = i;
     col = j;
     size = 50;
     type = t;
+    //based on the type of tile, set the image
+    if(type.equals("#")){
+      img = loadImage("assets/solid.png");
+    }else if(type.equals("<")){
+      img = loadImage("assets/left.png");
+    }else if(type.equals(">")){
+      img = loadImage("assets/right.png");
+    }else if(type.equals("F")){
+      img = loadImage("assets/finish.png");
+    }else{
+      img = null;
+    }
     spawn();
     setShape(new Rectangle(position, size, size));
   }
@@ -18,20 +33,11 @@ class Tile extends Being {
   
   void render(){
     
-    if(type.equals("#")){
-      fill(0);
-    }else if(type.equals("<")){
-      fill(255, 0, 0);
-    }else if(type.equals(">")){
-      fill(230, 0, 0);
-    }else if(type.equals("F")){
-      fill(0, 255, 0);
-    }else{
-      fill(255);
+
+
+    if(img != null){
+      image(img, position.x, position.y, size, size);
     }
-    //noFill();
-    stroke(255);
-    rect(position.x, position.y, size, size);
   }
   
   void spawn(){
