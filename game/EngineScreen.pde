@@ -3,12 +3,13 @@ class Screen{
   HashMap<String, Group> groups;
   ArrayList<Interaction> interactions;
   color backgroundColor;
+  PImage img;
   
-  Screen(color bgColor){
+  Screen(){
     everyone = new Group<Being>(this);  
     groups = new HashMap<String, Group>();
     interactions = new ArrayList<Interaction>();
-    backgroundColor = bgColor;
+    img = loadImage("assets/background.jpg");
   }
   
   void register(String groupName, Being b){
@@ -40,7 +41,7 @@ class Screen{
   }
   
   void render(){
-    background(backgroundColor);
+    background(img);
     for(int i=0; i<everyone.size(); i++){
       everyone.get(i).render();  
     }

@@ -33,8 +33,6 @@ class Tile extends Being {
   
   void render(){
     
-
-
     if(img != null){
       image(img, position.x, position.y, size, size);
     }
