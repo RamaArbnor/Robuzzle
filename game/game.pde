@@ -2,7 +2,7 @@ final color yellow = #F5C825;
 final color darkblue = #1217FF;
 final color red = #E0022F;
 final color green = #04C118;
-
+final color grey = #313131;
 HashMap<String, Screen> mode;
 Screen active;
 
@@ -19,7 +19,7 @@ void setup(){
 void createGameOverScreen(){
   Screen gameOver = new Screen(yellow);
   gameOver.register(new TextBeing("GAME OVER", darkblue, 50, new PVector(width/2, height/2)));
-  gameOver.register(new TextBeing("Your Score is "+score, darkblue, 40, new PVector(width/2, 60+height/2)));
+
   ButtonBeing restart = new ButtonBeing("play again", green, 30, new PVector(width/2, 110+height/2), red){
     void act(){
       createLevel1();
@@ -31,8 +31,21 @@ void createGameOverScreen(){
 }
 
 void createLevel1(){
-  Screen level1 = new Screen(darkblue);
+  Screen level1 = new Screen(grey);
+  //level1.register("Tiles" , new Tile(3, 0));
 
+  //read a text file called Level1.txt
+  String[] lines = loadStrings("Level1.txt");
+  for(int i = 0; i < lines.length; i++){
+    String line = lines[i];
+    for(int j = 0; j < line.length(); j++){
+      char c = line.charAt(j);
+      if(c == '#'){
+        level1.register("Tiles",new Tile(i,j));
+      }
+
+    }
+  }
   mode.put("level1", level1);
 }
 
