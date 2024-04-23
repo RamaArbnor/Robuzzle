@@ -136,7 +136,7 @@ void createLevel(int number) {
         int delay = Integer.parseInt(spawnMeta[0]);
         int interval = Integer.parseInt(spawnMeta[1]);
         int count = Integer.parseInt(spawnMeta[2]);
-        level.register("Tiles", new SpawnTile(i, j, "#"+"", delay, interval, count, spawnMeta[3].equals("R"), this));
+        level.register("Tiles", new SpawnTile(i, j, "S"+"", delay, interval, count, spawnMeta[3].equals("R"), this));
         currentMeta++;
         break;
       case '<':
