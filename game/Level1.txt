@@ -1,8 +1,8 @@
 W   W   8  W   W
-W   W   8  W   W
-W          W   W
-L#R     W  W   W
-W  L#####  W   W
+W   W          W
+W              W
+L#R####   ###S#W
+W         #    W
 W          W   W
 T      L#<<R   W
 W              W

@@ -158,8 +158,8 @@ void createLevel(int number) {
         tpDestPos.add(new PVector(i,j));
         break;
       case '8':
-        level.register("Tiles", new Tile(i, j, "#"));
-        level.register("Swings", new SwingTile(i, j));
+        level.register("Tiles", new Tile(i, j, ""));
+        level.register("Swings", new SwingTile(i, j, this));
         break;
       }
     }
