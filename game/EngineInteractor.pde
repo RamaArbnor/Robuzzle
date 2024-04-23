@@ -20,8 +20,9 @@ class Interaction<A extends Being, B extends Being>{
   }
   
   void handleInteraction(){
-    for(int i=0; i<groupA.size(); i++){
-      for(int j=0; j<groupB.size(); j++){
+    for(int i=groupA.size()-1; i>=0; i--){
+      for(int j=groupB.size()-1; j>=0; j--){
+        if(i >= groupA.size() || j >= groupB.size()) continue;
         if(interactor.detect(groupA.get(i), groupB.get(j))){
           interactor.resolve(groupA.get(i), groupB.get(j));  
         }

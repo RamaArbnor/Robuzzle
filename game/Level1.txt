@@ -6,9 +6,9 @@ W  L#####  W   W
 W          W   W
 W      L#<<R   W
 W              W
-W            T W
-L>>8#R#L#######R
+W      T     T W
+L>>8##########R
 W      
 W        T F     
-L##t##R  #L#<<#t##R
+L##tSSR  #L#<<#t#tR
 123

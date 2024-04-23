@@ -240,7 +240,7 @@ void stopSpawns(){
 }
 void startSpawns(){
   Group tiles = active.groups.get("Tiles");
-  for(int i = 0; i < tiles.size(); i++){
+  for(int i = tiles.size() -1; i >= 0; i--){
     Being t = tiles.get(i);
     if(t instanceof SpawnTile){
       ((SpawnTile) t).start();
