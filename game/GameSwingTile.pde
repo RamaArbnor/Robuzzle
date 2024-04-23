@@ -91,7 +91,7 @@ class SwingTile extends Tile {
       scale(1, 1);
     }
 
-    image(img, 0, 0, 150, 180);
+    image(img, 0, 0, 150, 150);
     pop();
   }
 

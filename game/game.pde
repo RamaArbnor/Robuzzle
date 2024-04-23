@@ -107,10 +107,10 @@ void createLevel(int number) {
   String[] lines = loadStrings("Level" + number + ".txt");
   String[] meta = loadStrings("Level" + number + "_meta.txt");
   int currentMeta = 0;
-  level.addGroup("Robots");
+  level.addGroup("Robots"); 
+  level.addGroup("Swings");
   level.addGroup("Tiles");
   level.addGroup("Walls");
-  level.addGroup("Swings");
   level.addGroup("Teleporters");
   for (int i = 0; i < lines.length; i++) {
     String line = lines[i];
