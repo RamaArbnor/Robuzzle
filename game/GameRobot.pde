@@ -9,6 +9,8 @@ class Robot extends Being {
   PVector gravity;
   boolean facingRight;
   boolean swinging;
+  boolean selected;
+  String state;
 
 
   Robot(int i, int j, Gif img) {
@@ -22,6 +24,7 @@ class Robot extends Being {
     size = 50;
     facingRight = true;
     gravity = new PVector(0,3);
+    selected = false;
     //img = loadImage("assets/solid.png");
     this.img = img;
     spawn();
@@ -29,6 +32,12 @@ class Robot extends Being {
   }
 
   void update() {
+    // println(mouseX);
+    if(this.shape.contains(new PVector(mouseX, mouseY)) && mousePressed) {
+      selected = true;
+      selecting = true;
+      selectedRobot = this;
+    }
     if(position.x > width || position.y > height) {
       active.remove("Robots", this);
       return;
@@ -47,13 +56,19 @@ class Robot extends Being {
   }
 
   void render() {
-
+    if(selected) {
+      stroke(0, 255, 0);
+      strokeWeight(3);
+      noFill();
+      rect(position.x, position.y, size, size);
+    }
     image(img, position.x + 10, position.y +20, 30, 30);
   }
 
   void spawn() {
     //set the position of the rectangle based on the row and column
-    position = new PVector(col*size, row*size);
+    position.x = col*size;
+    position.y = row*size;
     velocity = new PVector(0, -1);
   }
 

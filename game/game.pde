@@ -12,11 +12,15 @@ Screen active;
 
 Gif myAnimation;
 
+boolean selecting;
+SelectionMenu menu;
+Robot selectedRobot;
 void setup() {
   size(1000, 650);
   noSmooth();
   // frameRate(30);
-
+  selecting = false;
+  menu = new SelectionMenu();
   mode = new HashMap<String, Screen>();
   createGameStartScreen();
   createLevel(1);
@@ -28,7 +32,7 @@ void setup() {
   //myAnimation.ignoreRepeat();
 
   // createGameOverScreen();
-  active = mode.get("gameStart");
+  active = mode.get("level1");
 }
 
 void createGameStartScreen() {
@@ -98,6 +102,7 @@ void createLevel1() {
   }
   mode.put("level1", level1);
 }
+
 
 void createLevel(int number) {
   PImage img = loadImage("assets/background.jpg");
@@ -171,14 +176,21 @@ void createLevel(int number) {
 
 //GAME LOOP
 void draw() {
+  if(!selecting) {
+
   //1. UPDATE
   active.update();
 
   //2. INTERACT
   active.interact();
+  }
 
   //3. RENDER
   active.render();
 
+  if(selecting){
+    menu.update();
+    menu.render();
+  }
   image(myAnimation, 30, 30, 30, 30);
 }

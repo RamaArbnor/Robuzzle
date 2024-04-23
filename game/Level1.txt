@@ -1,6 +1,6 @@
-W   W      W   W
-W   W      W   W
-LSR W      W   W
+W          W   W
+W          W   W
+LSR        W   W8
 W  L#######R   W
 W          W   W
 W          W   W
