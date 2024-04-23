@@ -71,10 +71,11 @@ public class RobotRobotInteractor extends Interactor<Robot, Robot> {
 
 		int tRow = (int)t.position.y/50;
 		int tCol = (int)t.position.x/50;
-		
+
 		if (!r.emerging	&& r.facingRight == t.facingRight && ((r.facingRight && rCol + 1 == tCol && rRow == tRow)
 			|| (!r.facingRight && rCol - 1 == tCol && rRow == tRow)
 			|| (r.falling > 29 && rCol == tCol && rRow + 1 == tRow))) {
+			r.falling = 30;
 			return true;
 		}
 
