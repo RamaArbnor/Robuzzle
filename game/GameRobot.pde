@@ -101,7 +101,19 @@ class Robot extends Being {
       rect(position.x, position.y, size, size);
     }
 
-    image(img, position.x + 10, position.y +20, 30, 30);
+	push();
+
+	if (!facingRight) {
+		translate(position.x + 40, position.y + 20);
+		scale(-1,1);
+	}
+	else {
+		translate(position.x + 10, position.y + 20);
+		scale(1,1);
+	}
+
+    image(img, 0, 0, 30, 30);
+	pop();
   }
 
   void spawn() {
