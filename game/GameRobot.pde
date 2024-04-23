@@ -5,8 +5,10 @@ class Robot extends Being {
   Gif img;
   boolean emerging;
   int falling;
+  boolean walking;
   PVector gravity;
   boolean facingRight;
+  boolean swinging;
 
 
   Robot(int i, int j, Gif img) {
@@ -14,6 +16,8 @@ class Robot extends Being {
     row = i;
     col = j;
     emerging = true;
+    swinging = false;
+    walking = false;
     falling = 0;
     size = 50;
     facingRight = true;
@@ -29,7 +33,8 @@ class Robot extends Being {
       active.remove("Robots", this);
       return;
     }
-
+    if(swinging) return;
+    walking = false;
     position.add(velocity);
     if(!emerging) {
       velocity = new PVector(0,3);

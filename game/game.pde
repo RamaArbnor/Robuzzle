@@ -12,20 +12,20 @@ Screen active;
 
 Gif myAnimation;
 
-void setup(){
+void setup() {
   size(1000, 650);
   // frameRate(30);
 
   mode = new HashMap<String, Screen>();
   createGameStartScreen();
   createLevel(1);
-    
+
   myAnimation = new Gif(this, "robotRun.gif");
   myAnimation.loop();
   //myAnimation.stop();
   //myAnimation.play();
   //myAnimation.ignoreRepeat();
-  
+
   // createGameOverScreen();
   active = mode.get("gameStart");
 }
@@ -142,6 +142,10 @@ void createLevel(int number) {
         level.register("Tiles", new Tile(i, j, c+""));
         tilePositions.put(c, new PVector(i, j));
         break;
+      case '8':
+        level.register("Tiles", new Tile(i, j, "#"));
+        level.register("Swings", new SwingTile(i,j));
+        break;
       }
     }
   }
@@ -151,14 +155,16 @@ void createLevel(int number) {
   level.register("Teleporters", tp);
   RobotTileInteractor rti = new RobotTileInteractor();
   RobotTeleporterInteractor rtpi = new RobotTeleporterInteractor();
+  RobotSwingInteractor rsi = new RobotSwingInteractor();
   level.addGroup("Robots");
-  level.register("Robots","Teleporters", rtpi);
+  level.register("Robots", "Teleporters", rtpi);
   level.register("Robots", "Tiles", rti);
+  level.register("Robots", "Swings", rsi);
   mode.put("level"+number, level);
 }
 
 //GAME LOOP
-void draw(){
+void draw() {
   //1. UPDATE
   active.update();
 
@@ -167,7 +173,6 @@ void draw(){
 
   //3. RENDER
   active.render();
-  
-  image(myAnimation, 30,30, 30, 30);
 
+  image(myAnimation, 30, 30, 30, 30);
 }
