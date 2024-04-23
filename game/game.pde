@@ -228,3 +228,22 @@ void draw() {
   }
   image(myAnimation, 30, 30, 30, 30);
 }
+
+void stopSpawns(){
+  Group tiles = active.groups.get("Tiles");
+  for(int i = 0; i < tiles.size(); i++){
+    Being t = tiles.get(i);
+    if(t instanceof SpawnTile){
+      ((SpawnTile) t).stop();
+    }
+  }
+}
+void startSpawns(){
+  Group tiles = active.groups.get("Tiles");
+  for(int i = 0; i < tiles.size(); i++){
+    Being t = tiles.get(i);
+    if(t instanceof SpawnTile){
+      ((SpawnTile) t).start();
+    }
+  }
+}

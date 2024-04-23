@@ -38,6 +38,7 @@ class Robot extends Being {
       selected = true;
       selecting = true;
       selectedRobot = this;
+      stopSpawns();
     }
     if(position.x > width || position.y > height) {
       active.remove("Robots", this);
