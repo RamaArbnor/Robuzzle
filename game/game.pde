@@ -5,6 +5,7 @@ final color darkblue = #1217FF;
 final color red = #E0022F;
 final color green = #04C118;
 final color grey = #313131;
+final color white = #FFFFFF;
 
 HashMap<String, Screen> mode;
 Screen active;
@@ -37,13 +38,29 @@ void createGameStartScreen() {
   gameStart.register("assets", new Tile(50, 275, title, 450, 150));
 
 
-  ButtonBeing start = new ButtonBeing("start", green, 30, new PVector(width/2, 110+height/2), red) {
+  ButtonBeing start = new ButtonBeing("PLAY", grey, 30, new PVector(width/2-50, 250), white) {
     void act() {
       createLevel(1);
       active = mode.get("level1");
     }
   };
+
+  ButtonBeing tut = new ButtonBeing("TUTORIAL", grey, 30, new PVector(width/2-80, 300), white) {
+    void act() {
+      createLevel(1);
+      active = mode.get("level1");
+    }
+  };
+
+  ButtonBeing quit = new ButtonBeing("QUIT", grey, 30, new PVector(width/2-50, 350), white) {
+    void act() {
+      exit();
+    }
+  };
+
   gameStart.register(start);
+  gameStart.register(tut);
+  gameStart.register(quit);
   mode.put("gameStart", gameStart);
 }
 
