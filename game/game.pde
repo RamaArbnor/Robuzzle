@@ -16,7 +16,7 @@ void setup(){
   // frameRate(30);
 
   mode = new HashMap<String, Screen>();
-  createLevel1();
+  createLevel(1);
     
   myAnimation = new Gif(this, "robotRun.gif");
   myAnimation.loop();
@@ -84,7 +84,7 @@ void createLevel(int number) {
         level.register("Tiles", new Tile(i, j, c+""));
         break;
       case 'S':
-        level.register("Tiles", new SpawnTile(i, j, "#"+"", 4, 3, 3));
+        level.register("Tiles", new SpawnTile(i, j, "#"+"", 4, 3, 3, this));
         break;
       case '<':
         level.register("Tiles", new Tile(i, j, c+""));
@@ -104,6 +104,9 @@ void createLevel(int number) {
       }
     }
   }
+  RobotTileInteractor rti = new RobotTileInteractor();
+  level.addGroup("Robots");
+  level.register("Robots", "Tiles", rti);
   mode.put("level"+number, level);
 }
 

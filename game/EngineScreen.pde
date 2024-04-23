@@ -14,7 +14,7 @@ class Screen{
   
   void register(String groupName, Being b){
     if(groups.get(groupName) == null){
-      groups.put(groupName, new Group<Being>(this));  
+      groups.put(groupName, new Group<Being>(this));
     }
     groups.get(groupName).add(b);
     everyone.add(b);  
@@ -22,6 +22,10 @@ class Screen{
   
   void register(Being b){
     everyone.add(b);  
+  }
+  
+  void addGroup(String name){
+    groups.put(name, new Group<Being>(this));
   }
 
   void register(String groupA, String groupB, Interactor interactor){
@@ -42,7 +46,7 @@ class Screen{
   
   void render(){
     background(img);
-    for(int i=0; i<everyone.size(); i++){
+    for(int i=everyone.size()-1; i>= 0; i--){
       everyone.get(i).render();  
     }
   }

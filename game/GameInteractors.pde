@@ -1,3 +1,25 @@
+public class RobotTileInteractor extends Interactor<Robot, Tile>{
+  
+  RobotTileInteractor(){
+    super();
+  }
+  
+  boolean detect(Robot r, Tile t){
+    if(r.emerging) return false;
+    int row = (int)r.position.y/50;
+    int col = (int)r.position.x/50;
+    if(col == t.col && row+1 == t.row){
+      return true;
+    }
+    return false;
+  }
+  
+  void resolve(Robot r, Tile t){
+    r.velocity = new PVector(1,0);
+    r.falling = 0;
+  }
+}
+
 // public class FoodAvatarInteractor extends Interactor<Food, Avatar>{
   
 //   FoodAvatarInteractor(){
