@@ -14,6 +14,7 @@ Gif myAnimation;
 
 void setup() {
   size(1000, 650);
+  noSmooth();
   // frameRate(30);
 
   mode = new HashMap<String, Screen>();
@@ -71,7 +72,7 @@ void createGameOverScreen() {
 
   ButtonBeing restart = new ButtonBeing("play again", green, 30, new PVector(width/2, 110+height/2), red) {
     void act() {
-      createLevel1();
+      createLevel(1);
       active = mode.get("level1");
     }
   };
@@ -124,7 +125,7 @@ void createLevel(int number) {
         level.register("Tiles", new Tile(i, j, c+""));
         break;
       case 'S':
-        level.register("Tiles", new SpawnTile(i, j, "#"+"", 4, 3, 1, this));
+        level.register("Tiles", new SpawnTile(i, j, "#"+"", 4, 3, 3, this));
         break;
       case '<':
         level.register("Tiles", new Tile(i, j, c+""));
@@ -133,7 +134,7 @@ void createLevel(int number) {
         level.register("Tiles", new Tile(i, j, c+""));
         break;
       case 'W':
-        level.register("Tiles", new Tile(i, j, c+""));
+        level.register("Walls", new Tile(i, j, c+""));
         break;
       case 'T':
         tilePositions.put(c, new PVector(i, j));
@@ -149,17 +150,22 @@ void createLevel(int number) {
       }
     }
   }
-  print(tilePositions.get('T') + " " + tilePositions.get('t') + "\n");
+
   Teleporter tp = new Teleporter((int)tilePositions.get('T').x, (int)tilePositions.get('T').y, "T", tilePositions.get('t'));
   level.register("Tiles", tp);
   level.register("Teleporters", tp);
+  
   RobotTileInteractor rti = new RobotTileInteractor();
+  RobotWallInteractor rwi = new RobotWallInteractor();
+  RobotRobotInteractor rri = new RobotRobotInteractor();
   RobotTeleporterInteractor rtpi = new RobotTeleporterInteractor();
   RobotSwingInteractor rsi = new RobotSwingInteractor();
   level.addGroup("Robots");
   level.register("Robots", "Teleporters", rtpi);
   level.register("Robots", "Tiles", rti);
   level.register("Robots", "Swings", rsi);
+  level.register("Robots", "Walls", rwi);
+  level.register("Robots", "Robots", rri);
   mode.put("level"+number, level);
 }
 
