@@ -19,6 +19,7 @@ SelectionMenu menu;
 Robot selectedRobot;
 
 SoundFile levelMusic;
+SoundFile tpSound;
 
 void setup() {
   size(1000, 650);
@@ -28,6 +29,7 @@ void setup() {
   menu = new SelectionMenu();
   mode = new HashMap<String, Screen>();
   levelMusic = new SoundFile(this, "sounds/level.mp3");
+  tpSound = new SoundFile(this, "sounds/teleport.mp3");
   createGameStartScreen();
   createGameOverScreen();
   createLevelCompletedScreen();
@@ -102,6 +104,7 @@ void createLevelCompletedScreen(){
 void createLevel(int number) {
   PImage img = loadImage("assets/background.jpg");
   levelMusic.play();
+  levelMusic.amp(0.02);
   Screen level = new Screen(img);
   //level1.register("Tiles" , new Tile(3, 0));
   HashMap<Character, PVector> tilePositions = new HashMap<Character, PVector>();
