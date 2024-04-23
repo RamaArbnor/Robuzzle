@@ -61,18 +61,29 @@ class Robot extends Being {
       active.remove("Robots", this);
       return;
     }
+
     if(swinging || teleporting) return;
     walking = false;
     position.add(velocity);
-    println("Falling for " + falling);
+    // println("Falling for " + falling);
+
     if(!emerging) {
       velocity = new PVector(0,3);
-      falling+=3;
+      falling += 3;
+
+	  // if the state is bridge, make bridge on the current tile after falling a bit
+	  if(state.equals("Bridge") && falling > 30 && falling < 40) {
+		falling = 0;
+		bridge();
+	  }
+	  else if(state.equals("Explode") && falling < 20) {
+		explode();
+	  }
     }
+
     if(emerging && position.y <= (row-1)*size){
       emerging = false;
-    }
-    
+    }    
   }
 
   void render() {
@@ -111,4 +122,39 @@ class Robot extends Being {
     }
     return false;
   }
+  
+	// become a tile by taking the position, dividing by 50 and adding a new tile in that position
+	void bridge() {
+		int row = (int)position.y / 50;
+		int col = (int)position.x / 50;
+
+		if (!facingRight) col++;
+
+		Tile t = new Tile(row + 1, col, "B");
+		active.register("Tiles", t);
+		active.remove("Robots", this);
+	}
+
+	void explode() {
+		int row = (int)position.y / 50 + 1;
+		float tempCol = position.x / 50;
+		int col = Math.round(tempCol);
+
+		for(int i = 0; i < active.groups.get("Tiles").size(); i++){
+			Tile t = (Tile) active.groups.get("Tiles").get(i);
+
+			if(t.col == col && t.row == row && (t.type.equals("B") || t.type.equals("#") || t.type.equals("L") || t.type.equals("R"))){
+				active.remove("Tiles", t);
+				break;
+			}
+		}
+
+		for(int i = active.groups.get("Robots").size() - 1; i >= 0; i--){
+			Robot r = (Robot) active.groups.get("Robots").get(i);
+			
+			if(r.position.dist(position) < 300){
+				active.remove("Robots", r);
+			}
+		}
+	}
 }

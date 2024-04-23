@@ -3,11 +3,11 @@ W   W      W   W
 LSR  T         W
 W  L###   #R   W
 W          W   W
-W      #   W   W
-W      L# <R   W
+W          W   W
+W      L#<<R   W
 W              W
-W       F#     W
-L>>t#R#L###t ##R
+W            T W
+L>>8#R#L#######R
 W      
 W        T      
 L#####R  #L#<<####R
