@@ -10,7 +10,7 @@ class Robot extends Being {
   boolean facingRight;
   boolean swinging;
   boolean selected;
-  String state;
+  String state = "Running";
 
 
   Robot(int i, int j, Gif img) {
@@ -38,21 +38,31 @@ class Robot extends Being {
       selecting = true;
       selectedRobot = this;
     }
+
     if(position.x > width || position.y > height) {
       active.remove("Robots", this);
       return;
     }
+
     if(swinging) return;
+
     walking = false;
     position.add(velocity);
+
     if(!emerging) {
       velocity = new PVector(0,3);
-      falling+=3;
+      falling += 3;
+
+	  // if the state is bridge, make bridge on the current tile after falling a bit
+	  if(state.equals("Bridge") && falling > 30 && falling < 40) {
+		falling = 0;
+		bridge();
+	  }
     }
+
     if(emerging && position.y <= (row-1)*size){
       emerging = false;
-    }
-    
+    }    
   }
 
   void render() {
@@ -83,4 +93,16 @@ class Robot extends Being {
     }
     return false;
   }
+  
+	// become a tile by taking the position, dividing by 50 and adding a new tile in that position
+	void bridge() {
+		int row = (int)position.y / 50;
+		int col = (int)position.x / 50;
+
+		if (!facingRight) col++;
+
+		Tile t = new Tile(row + 1, col, "B");
+		active.register("Tiles", t);
+		active.remove("Robots", this);
+	}
 }

@@ -73,7 +73,7 @@ public class RobotRobotInteractor extends Interactor<Robot, Robot> {
 		int tCol = (int)t.position.x/50;
 
 		// println("rob: " + col + " " + row + " target: " + t.col);
-		if (!r.emerging	&& ((r.facingRight && rCol + 1 == tCol && rRow == tRow)
+		if (!r.emerging	&& r.facingRight == t.facingRight && ((r.facingRight && rCol + 1 == tCol && rRow == tRow)
 			|| (!r.facingRight && rCol - 1 == tCol && rRow == tRow)
 			|| (r.falling > 30 && rCol == tCol && rRow + 1 == tRow))) {
 			return true;
