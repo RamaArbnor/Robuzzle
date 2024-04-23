@@ -5,7 +5,11 @@ public class RobotTileInteractor extends Interactor<Robot, Tile>{
   }
   
   boolean detect(Robot r, Tile t){
-    if(r.emerging) return false;
+    if(r == null || r.emerging) return false;
+    if(r.position.x > width || r.position.y > height) {
+      active.remove("Robots", r);
+      return false;
+    }
     int row = (int)r.position.y/50;
     int col = (int)r.position.x/50;
     if(col == t.col && row+1 == t.row){
@@ -16,6 +20,10 @@ public class RobotTileInteractor extends Interactor<Robot, Tile>{
   
   void resolve(Robot r, Tile t){
     r.velocity = new PVector(1,0);
+    if(r.falling > 190) {
+      print("Rash: " + r.falling);
+      active.remove("Robots", r);
+    }
     r.falling = 0;
   }
 }

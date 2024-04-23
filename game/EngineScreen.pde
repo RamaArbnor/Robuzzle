@@ -32,6 +32,14 @@ class Screen{
     interactions.add(new Interaction(groups.get(groupA), groups.get(groupB), interactor));
   }
   
+  void remove(String group, Being b){
+    everyone.remove(b);
+    Group g = groups.get(group);
+    g.remove(b);
+    if(g.size() == 0) groups.remove(group, g);
+    
+  }
+  
   void update(){
     for(int i=0; i<everyone.size(); i++){
       everyone.get(i).update();  

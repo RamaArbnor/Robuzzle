@@ -1,3 +1,4 @@
+
 class Robot extends Being {
   int row;
   int col;
@@ -26,7 +27,7 @@ class Robot extends Being {
     position.add(velocity);
     if(!emerging) {
       velocity = new PVector(0,3);
-      falling++;
+      falling+=3;
     }
     if(emerging && position.y <= (row-1)*size){
       emerging = false;

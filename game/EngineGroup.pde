@@ -23,6 +23,7 @@ class Group<B extends Being>{
   }
   
   B get(int i){
+    if(collection.size() == 0) return null;
     return collection.get(i);  
   }
   
