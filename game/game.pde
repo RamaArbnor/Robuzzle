@@ -20,6 +20,7 @@ Robot selectedRobot;
 
 SoundFile levelMusic;
 SoundFile tpSound;
+SoundFile explosionSound;
 
 void setup() {
   size(1000, 650);
@@ -30,6 +31,7 @@ void setup() {
   mode = new HashMap<String, Screen>();
   levelMusic = new SoundFile(this, "sounds/level.mp3");
   tpSound = new SoundFile(this, "sounds/teleport.mp3");
+  explosionSound = new SoundFile(this, "sounds/explosion.wav");
   createGameStartScreen();
   createGameOverScreen();
   createLevelCompletedScreen();

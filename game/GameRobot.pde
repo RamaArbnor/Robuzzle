@@ -152,6 +152,8 @@ class Robot extends Being {
   }
 
   void explode() {
+    explosionSound.play();
+    // explosionSound.amp(0.5);
     int row = (int)position.y / 50 + 1;
     float tempCol = position.x / 50;
     int col = Math.round(tempCol);
