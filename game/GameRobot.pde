@@ -9,6 +9,7 @@ class Robot extends Being {
   PVector gravity;
   boolean facingRight;
   boolean swinging;
+  boolean teleporting;
   boolean selected;
   String state;
 
@@ -19,6 +20,7 @@ class Robot extends Being {
     col = j;
     emerging = true;
     swinging = false;
+    teleporting = false;
     walking = false;
     falling = 0;
     size = 50;
@@ -30,6 +32,7 @@ class Robot extends Being {
     spawn();
     setShape(new Rectangle(position, size, size));
     facingRight = faceRight;
+    state = "Normal";
   }
 
   void update() {

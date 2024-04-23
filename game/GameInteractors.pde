@@ -95,11 +95,12 @@ public class RobotTeleporterInteractor extends Interactor<Robot, Teleporter>{
   boolean detect(Robot r, Teleporter t) {
     if (r == null) return false;
 
-    return r.detect(t);
+    return r.state.equals("Teleport") && r.detect(t);
   }
 
   void resolve(Robot r, Teleporter t) {
     t.teleport(r);
+    r.state = "Normal";
   }
 }
 
