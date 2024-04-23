@@ -41,7 +41,8 @@ class Screen{
   }
   
   void update(){
-    for(int i=0; i<everyone.size(); i++){
+    for(int i=everyone.size()-1; i>=0; i--){
+      if(i >= everyone.size()) continue;
       everyone.get(i).update();  
     }
   }

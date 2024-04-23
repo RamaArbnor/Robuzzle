@@ -14,7 +14,8 @@ public class RobotTileInteractor extends Interactor<Robot, Tile> {
     r.walking = true;
     if (r.falling > 190) {
       print("Rash: " + r.falling);
-      active.remove("Robots", r);
+      r.destroyMe();
+      //active.remove("Robots", r);
     }
     if (t.type.equals("<")) {
       r.velocity = new PVector(-1, 0);
@@ -142,7 +143,7 @@ public class RobotDestinationInteractor extends Interactor<Robot, FinishTile> {
   boolean detect(Robot r, FinishTile f) {
     int row = (int)r.position.y/50;
     int col = (int)r.position.x/50;
-    if ((r.facingRight && col == f.col && row == f.row) || (!r.facingRight && col + 1  == f.col && row == f.row)) {
+    if (/*First check is debatable*/f.count > 0 && ((r.facingRight && col == f.col && row == f.row) || (!r.facingRight && col + 1  == f.col && row == f.row))) {
       return true;
     }
     return false;
@@ -152,5 +153,6 @@ public class RobotDestinationInteractor extends Interactor<Robot, FinishTile> {
     f.count--;
     active.remove("Robots", r);
     println("I AM HOME. There are "+f.count+" left");
+    if(f.count <= 0) checkLevelCompletion();
   }
 }

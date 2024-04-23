@@ -9,6 +9,7 @@ final color white = #FFFFFF;
 
 HashMap<String, Screen> mode;
 Screen active;
+int currentLevel;
 
 Gif myAnimation;
 
@@ -23,6 +24,8 @@ void setup() {
   menu = new SelectionMenu();
   mode = new HashMap<String, Screen>();
   createGameStartScreen();
+  createGameOverScreen();
+  createLevelCompletedScreen();
   createLevel(1);
 
   myAnimation = new Gif(this, "robotRun.gif");
@@ -32,7 +35,7 @@ void setup() {
   //myAnimation.ignoreRepeat();
 
   // createGameOverScreen();
-  active = mode.get("level1");
+  active = mode.get("gameStart");
 }
 
 void createGameStartScreen() {
@@ -47,6 +50,7 @@ void createGameStartScreen() {
     void act() {
       createLevel(1);
       active = mode.get("level1");
+      currentLevel = 1;
     }
   };
 
@@ -84,24 +88,10 @@ void createGameOverScreen() {
   mode.put("gameOver", gameOver);
 }
 
-void createLevel1() {
-  PImage img = loadImage("assets/background.jpg");
-  Screen level1 = new Screen(img);
-  //level1.register("Tiles" , new Tile(3, 0));
+void createLevelCompletedScreen(){
 
-  //read a text file called Level1.txt
-  String[] lines = loadStrings("Level1.txt");
-  for (int i = 0; i < lines.length; i++) {
-    String line = lines[i];
-    for (int j = 0; j < line.length(); j++) {
-      char c = line.charAt(j);
-      if (c != ' ') {
-        level1.register("Tiles", new Tile(i, j, c+""));
-      }
-    }
-  }
-  mode.put("level1", level1);
 }
+
 
 
 void createLevel(int number) {
@@ -240,10 +230,50 @@ void stopSpawns(){
 }
 void startSpawns(){
   Group tiles = active.groups.get("Tiles");
-  for(int i = 0; i < tiles.size(); i++){
+  for(int i = tiles.size() -1; i >= 0; i--){
     Being t = tiles.get(i);
     if(t instanceof SpawnTile){
       ((SpawnTile) t).start();
     }
   }
+}
+void checkLevelCompletion(){
+  Group destinations = active.groups.get("Destinations");
+  boolean levelFinished = true;
+  for(int i = 0; i < destinations.size(); i++){
+    if(((FinishTile)destinations.get(i)).count > 0){
+      levelFinished = false;
+      break;
+    }
+  }
+  if(levelFinished){
+    println("BRAVOOOO");
+    
+  }
+}
+void checkLevelFailure(){
+  Group robots = active.groups.get("Robots");
+  int robotsCount = 0;
+  if(robots != null) robotsCount = robots.size();
+  Group allTiles = active.groups.get("Tiles");
+  int robotsToBeSpawned = 0;
+  for(int i = 0; i < allTiles.size(); i++){
+    Being t = allTiles.get(i);
+    if(t instanceof SpawnTile && ((SpawnTile)t).count > 0){
+      robotsToBeSpawned += ((SpawnTile)t).count;
+    }
+  }
+  
+  Group destinations = active.groups.get("Destinations");
+  int robotsToArrive = 0;
+  for(int i = 0; i < destinations.size(); i++){
+    if(((FinishTile)destinations.get(i)).count > 0){
+      robotsToArrive += ((FinishTile)destinations.get(i)).count;
+    }
+  }
+  
+  if(robotsCount+robotsToBeSpawned < robotsToArrive){
+    println("DESHTAK");  
+  }
+  
 }

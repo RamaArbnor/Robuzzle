@@ -38,10 +38,9 @@ class SelectionMenu {
             if(!mousePressed && wasPressed){
                 if(mouseX > (size.x/4) * 0 + pos.x + 25 && mouseX < (size.x/4) * 0 + pos.x + 25 + 50 && mouseY > pos.y+10 && mouseY < pos.y+10 + 50){
                     selectedRobot.state = "Explode";
-                    print("49");
-                    selectedRobot.selected = false; //<>//
+                    selectedRobot.explodeTimer = 60;
+                    selectedRobot.selected = false;  //<>//
                     selecting = false;
-                    println("1"); //<>//
                     startSpawns();
                 }
                 if(mouseX > (size.x/4) * 1 + pos.x + 25 && mouseX < (size.x/4) * 1 + pos.x + 25 + 50 && mouseY > pos.y+10 && mouseY < pos.y+10 + 50){
@@ -50,7 +49,7 @@ class SelectionMenu {
                     selecting = false;
                     println("2");
                     startSpawns(); //<>//
-                }
+                } //<>//
                 if(mouseX > (size.x/4) * 2 + pos.x + 25 && mouseX < (size.x/4) * 2 + pos.x + 25 + 50 && mouseY > pos.y+10 && mouseY < pos.y+10 + 50){
                     selectedRobot.state = "Swing";
                     selectedRobot.selected = false;
