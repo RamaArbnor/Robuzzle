@@ -38,25 +38,29 @@ class SelectionMenu {
                     selectedRobot.state = "Explode";
                     selectedRobot.selected = false;
                     selecting = false;
-                    println("1");
+                    println("1"); //<>//
+                    startSpawns();
                 }
                 if(mouseX > (size.x/4) * 1 + pos.x + 25 && mouseX < (size.x/4) * 1 + pos.x + 25 + 50 && mouseY > pos.y+10 && mouseY < pos.y+10 + 50){
                     selectedRobot.state = "Bridge";
                     selectedRobot.selected = false;
                     selecting = false;
                     println("2");
+                    startSpawns();
                 }
                 if(mouseX > (size.x/4) * 2 + pos.x + 25 && mouseX < (size.x/4) * 2 + pos.x + 25 + 50 && mouseY > pos.y+10 && mouseY < pos.y+10 + 50){
-                    selectedRobot.state = "Swing";
+                    selectedRobot.state = "Swing"; //<>//
                     selectedRobot.selected = false;
                     selecting = false;
                     println("3");
+                    startSpawns();
                 }
                 if(mouseX > (size.x/4) * 3 + pos.x + 25 && mouseX < (size.x/4) * 3 + pos.x + 25 + 50 && mouseY > pos.y+10 && mouseY < pos.y+10 + 50){
                     selectedRobot.state = "Teleport";
                     selectedRobot.selected = false;
                     selecting = false;
                     println("4");
+                    startSpawns();
                 }
             }
         }

@@ -9,16 +9,19 @@ class Robot extends Being {
   PVector gravity;
   boolean facingRight;
   boolean swinging;
+  boolean teleporting;
   boolean selected;
-  String state = "Running";
+  String state;
+  boolean isHovered;
 
 
-  Robot(int i, int j, Gif img) {
+  Robot(int i, int j, boolean faceRight, Gif img) {
     super();
     row = i;
     col = j;
     emerging = true;
     swinging = false;
+    teleporting = false;
     walking = false;
     falling = 0;
     size = 50;
@@ -29,14 +32,24 @@ class Robot extends Being {
     this.img = img;
     spawn();
     setShape(new Rectangle(position, size, size));
+    facingRight = faceRight;
+    state = "Normal";
   }
 
   void update() {
-    // println(mouseX);
+
     if(this.shape.contains(new PVector(mouseX, mouseY)) && mousePressed) {
       selected = true;
       selecting = true;
       selectedRobot = this;
+      stopSpawns();
+    }
+
+    //on robot hover make a grey outline
+    if(this.shape.contains(new PVector(mouseX, mouseY))) {
+      isHovered = true;
+    } else {
+      isHovered = false;
     }
 
     if(position.x > width || position.y > height) {
@@ -69,12 +82,20 @@ class Robot extends Being {
   }
 
   void render() {
+    if(isHovered) {
+      stroke(100);
+      strokeWeight(3);
+      noFill();
+      rect(position.x , position.y, size, size);
+    }
+
     if(selected) {
       stroke(0, 255, 0);
       strokeWeight(3);
       noFill();
       rect(position.x, position.y, size, size);
     }
+
     image(img, position.x + 10, position.y +20, 30, 30);
   }
 
