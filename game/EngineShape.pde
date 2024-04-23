@@ -41,12 +41,14 @@ class Rectangle extends Shape {
   float ry;
   float rw;
   float rh;
+  PVector c;
 
   Rectangle(PVector c, float w, float h) {
     rx = c.x;
     ry = c.y;
     rw = w;
     rh = h;
+    this.c = c;
   }
 
   boolean collides(Shape other) {
@@ -95,6 +97,8 @@ class Rectangle extends Shape {
   }
 
   boolean contains(PVector point) {
+    ry = c.y;
+    rx = c.x;
     // is the point inside the rectangle's bounds?
     if (point.x >= rx &&        // right of the left edge AND
       point.x <= rx + rw &&   // left of the right edge AND
