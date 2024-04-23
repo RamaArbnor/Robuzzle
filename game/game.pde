@@ -102,6 +102,7 @@ void createLevel(int number) {
   PImage img = loadImage("assets/background.jpg");
   Screen level = new Screen(img);
   //level1.register("Tiles" , new Tile(3, 0));
+  HashMap<Character, PVector> tilePositions = new HashMap<Character, PVector>();
 
   //read a text file called Level1.txt
   String[] lines = loadStrings("Level" + number + ".txt");
@@ -123,7 +124,7 @@ void createLevel(int number) {
         level.register("Tiles", new Tile(i, j, c+""));
         break;
       case 'S':
-        level.register("Tiles", new SpawnTile(i, j, "#"+"", 4, 3, 3, this));
+        level.register("Tiles", new SpawnTile(i, j, "#"+"", 4, 3, 1, this));
         break;
       case '<':
         level.register("Tiles", new Tile(i, j, c+""));
@@ -135,16 +136,23 @@ void createLevel(int number) {
         level.register("Tiles", new Tile(i, j, c+""));
         break;
       case 'T':
-        level.register("Tiles", new Tile(i, j, c+""));
+        tilePositions.put(c, new PVector(i, j));
         break;
       case 't':
         level.register("Tiles", new Tile(i, j, c+""));
+        tilePositions.put(c, new PVector(i, j));
         break;
       }
     }
   }
+  print(tilePositions.get('T') + " " + tilePositions.get('t') + "\n");
+  Teleporter tp = new Teleporter((int)tilePositions.get('T').x, (int)tilePositions.get('T').y, "T", tilePositions.get('t'));
+  level.register("Tiles", tp);
+  level.register("Teleporters", tp);
   RobotTileInteractor rti = new RobotTileInteractor();
+  RobotTeleporterInteractor rtpi = new RobotTeleporterInteractor();
   level.addGroup("Robots");
+  level.register("Robots","Teleporters", rtpi);
   level.register("Robots", "Tiles", rti);
   mode.put("level"+number, level);
 }

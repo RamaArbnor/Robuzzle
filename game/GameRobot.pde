@@ -6,7 +6,7 @@ class Robot extends Being {
   boolean emerging;
   int falling;
   PVector gravity;
-
+  boolean facingRight;
 
 
   Robot(int i, int j, Gif img) {
@@ -16,6 +16,7 @@ class Robot extends Being {
     emerging = true;
     falling = 0;
     size = 50;
+    facingRight = true;
     gravity = new PVector(0,3);
     //img = loadImage("assets/solid.png");
     this.img = img;
@@ -24,6 +25,11 @@ class Robot extends Being {
   }
 
   void update() {
+    if(position.x > width || position.y > height) {
+      active.remove("Robots", this);
+      return;
+    }
+
     position.add(velocity);
     if(!emerging) {
       velocity = new PVector(0,3);
@@ -44,5 +50,17 @@ class Robot extends Being {
     //set the position of the rectangle based on the row and column
     position = new PVector(col*size, row*size);
     velocity = new PVector(0, -1);
+  }
+
+  boolean detect(Tile t){
+    if(emerging) return false;
+    
+    int row = (int)position.y/50;
+    int col = (int)position.x/50;
+    if ((facingRight && col == t.col && (row == t.row || row + 1 == t.row)) || (!facingRight && col + 1  == t.col && (row == t.row || row + 1 == t.row))) {
+      // Check tile type
+      return true;
+    }
+    return false;
   }
 }

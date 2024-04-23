@@ -1,13 +1,14 @@
 
 
-LSR
-   L####R
+LS#R  T
+    L###R
 
-   #
-L###R   L#<<R
+   
+L##R  L #<<R
 
 
-L>>#R
-        LR
+L>>###R
+       L#R
                  F
-L#####R   L#######R
+L#####R   L###t###R
+123
