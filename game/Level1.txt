@@ -1,14 +1,14 @@
-
-
-LS#R  T
-    L###R
-
-   
+W          W
+W          W
+LS#R  T    W
+W   L###R  W
+W          W
+W          W
 L##R  L #<<R
-
-
+W
+W
 L>>###R
-       L#R
-                 F
+W      L#R
+W                F
 L#####R   L###t###R
 123

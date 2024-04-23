@@ -20,6 +20,8 @@ class Tile extends Being {
       img = loadImage("assets/leftSolid.png");
     }else if(type.equals("R")){
       img = loadImage("assets/rightSolid.png");
+	}else if(type.equals("W")){
+	  img = loadImage("assets/wall.png");
     }else if(type.equals("<")){
       img = loadImage("assets/turnLeft.png");
     }else if(type.equals(">")){

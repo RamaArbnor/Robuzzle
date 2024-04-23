@@ -71,7 +71,7 @@ void createGameOverScreen() {
 
   ButtonBeing restart = new ButtonBeing("play again", green, 30, new PVector(width/2, 110+height/2), red) {
     void act() {
-      createLevel1();
+      createLevel(1);
       active = mode.get("level1");
     }
   };
@@ -124,7 +124,7 @@ void createLevel(int number) {
         level.register("Tiles", new Tile(i, j, c+""));
         break;
       case 'S':
-        level.register("Tiles", new SpawnTile(i, j, "#"+"", 4, 3, 1, this));
+        level.register("Tiles", new SpawnTile(i, j, "#"+"", 4, 3, 3, this));
         break;
       case '<':
         level.register("Tiles", new Tile(i, j, c+""));
