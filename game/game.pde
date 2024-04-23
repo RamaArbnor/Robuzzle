@@ -1,4 +1,5 @@
 import gifAnimation.*;
+import processing.sound.*;
 
 final color yellow = #F5C825;
 final color darkblue = #1217FF;
@@ -16,6 +17,9 @@ Gif myAnimation;
 boolean selecting;
 SelectionMenu menu;
 Robot selectedRobot;
+
+SoundFile levelMusic;
+
 void setup() {
   size(1000, 650);
   noSmooth();
@@ -23,10 +27,11 @@ void setup() {
   selecting = false;
   menu = new SelectionMenu();
   mode = new HashMap<String, Screen>();
+  levelMusic = new SoundFile(this, "sounds/level.mp3");
   createGameStartScreen();
   createGameOverScreen();
   createLevelCompletedScreen();
-  createLevel(1);
+  // createLevel(1);
 
   myAnimation = new Gif(this, "robotRun.gif");
   myAnimation.loop();
@@ -96,6 +101,7 @@ void createLevelCompletedScreen(){
 
 void createLevel(int number) {
   PImage img = loadImage("assets/background.jpg");
+  levelMusic.play();
   Screen level = new Screen(img);
   //level1.register("Tiles" , new Tile(3, 0));
   HashMap<Character, PVector> tilePositions = new HashMap<Character, PVector>();
