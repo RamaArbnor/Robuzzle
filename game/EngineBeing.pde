@@ -3,6 +3,7 @@ abstract class Being{
   PVector velocity;
   Shape shape;
   float size;
+  PImage img;
   
   Being(){
     position = new PVector();
@@ -10,6 +11,7 @@ abstract class Being{
     size=0;
     shape = null;
   }
+  
   
   Being(PVector p, PVector v, float s){
     position = p;

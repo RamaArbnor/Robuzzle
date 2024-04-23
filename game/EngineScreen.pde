@@ -5,11 +5,11 @@ class Screen{
   color backgroundColor;
   PImage img;
   
-  Screen(){
+  Screen(PImage img){
     everyone = new Group<Being>(this);  
     groups = new HashMap<String, Group>();
     interactions = new ArrayList<Interaction>();
-    img = loadImage("assets/background.jpg");
+    this.img = img;
   }
   
   void register(String groupName, Being b){

@@ -1,7 +1,7 @@
 
 
 LSR
-    L#R
+   L#R
 
    #
 L###R   L#<<R

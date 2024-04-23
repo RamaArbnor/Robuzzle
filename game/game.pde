@@ -16,6 +16,7 @@ void setup(){
   // frameRate(30);
 
   mode = new HashMap<String, Screen>();
+  createGameStartScreen();
   createLevel(1);
     
   myAnimation = new Gif(this, "robotRun.gif");
@@ -25,11 +26,30 @@ void setup(){
   //myAnimation.ignoreRepeat();
   
   // createGameOverScreen();
-  active = mode.get("level1");
+  active = mode.get("gameStart");
+}
+
+void createGameStartScreen() {
+  PImage img = loadImage("assets/startBackground.jpg");
+  PImage title = loadImage("assets/Logo.png");
+  Screen gameStart = new Screen(img);
+
+  gameStart.register("assets", new Tile(50, 275, title, 450, 150));
+
+
+  ButtonBeing start = new ButtonBeing("start", green, 30, new PVector(width/2, 110+height/2), red) {
+    void act() {
+      createLevel(1);
+      active = mode.get("level1");
+    }
+  };
+  gameStart.register(start);
+  mode.put("gameStart", gameStart);
 }
 
 void createGameOverScreen() {
-  Screen gameOver = new Screen();
+  PImage img = loadImage("assets/startBackground.jpg");
+  Screen gameOver = new Screen(img);
   gameOver.register(new TextBeing("GAME OVER", darkblue, 50, new PVector(width/2, height/2)));
 
   ButtonBeing restart = new ButtonBeing("play again", green, 30, new PVector(width/2, 110+height/2), red) {
@@ -43,7 +63,8 @@ void createGameOverScreen() {
 }
 
 void createLevel1() {
-  Screen level1 = new Screen();
+  PImage img = loadImage("assets/background.jpg");
+  Screen level1 = new Screen(img);
   //level1.register("Tiles" , new Tile(3, 0));
 
   //read a text file called Level1.txt
@@ -61,7 +82,8 @@ void createLevel1() {
 }
 
 void createLevel(int number) {
-  Screen level = new Screen();
+  PImage img = loadImage("assets/background.jpg");
+  Screen level = new Screen(img);
   //level1.register("Tiles" , new Tile(3, 0));
 
   //read a text file called Level1.txt

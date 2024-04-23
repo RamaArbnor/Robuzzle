@@ -4,6 +4,8 @@ class Tile extends Being {
   int col;
   String type;
   PImage img;
+  int w;
+  int h;
 
   Tile(int i, int j, String t){
     super();
@@ -30,6 +32,18 @@ class Tile extends Being {
     spawn();
     setShape(new Rectangle(position, size, size));
   }
+
+  Tile(int x, int y, PImage img, int w, int h){
+    super();
+    row = x;
+    col = y;
+    this.w = w;
+    this.h = h;
+    this.img = img;
+    type = "I";
+    spawnImage();
+    // setShape(new Rectangle(position, size, size));
+  }
   
   void update(){
 
@@ -40,6 +54,8 @@ class Tile extends Being {
     if(img != null){
       if(type.equals("F")){
         image(img, position.x, position.y-30, size+30, size+30);
+      }else if(type.equals("I")){
+        image(img, position.x, position.y, w, h);
       }else{
         image(img, position.x, position.y, size, size);
       }
@@ -49,5 +65,10 @@ class Tile extends Being {
   void spawn(){
     //set the position of the rectangle based on the row and column 
     position = new PVector(col*size, row*size);
+  }
+
+  void spawnImage(){
+    //set the position of the rectangle based on the row and column 
+    position = new PVector(col, row);
   }
 }
