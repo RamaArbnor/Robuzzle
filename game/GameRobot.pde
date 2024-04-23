@@ -59,7 +59,8 @@ class Robot extends Being {
     }
 
     if (position.x > width || position.y > height) {
-      active.remove("Robots", this);
+      //active.remove("Robots", this);
+      destroyMe();
       return;
     }
 
@@ -146,7 +147,8 @@ class Robot extends Being {
 
     Tile t = new Tile(row + 1, col, "B");
     active.register("Tiles", t);
-    active.remove("Robots", this);
+    //active.remove("Robots", this);
+    destroyMe();
   }
 
   void explode() {
@@ -168,8 +170,14 @@ class Robot extends Being {
       Robot r = (Robot) active.groups.get("Robots").get(i);
 
       if (r.position.dist(position) < 51) {
-        active.remove("Robots", r);
+        //active.remove("Robots", r);
+        r.destroyMe();
       }
     }
+  }
+  
+  void destroyMe(){
+    active.remove("Robots", this);
+    checkLevelFailure();
   }
 }
