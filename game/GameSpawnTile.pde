@@ -22,6 +22,8 @@ class SpawnTile extends Tile {
     startTime = millis();
     totalPauseTime = 0;
     paused = false;
+
+	img = loadImage("assets/start.png");
   }
 
   @Override
