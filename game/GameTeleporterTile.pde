@@ -19,5 +19,4 @@ class Teleporter extends Tile {
 			image(img, position.x, position.y-30, size, size+30);
 		}
 	}
-
 }
