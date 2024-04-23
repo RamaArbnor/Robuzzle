@@ -21,7 +21,6 @@ class Teleporter extends Tile {
   @Override
     void update() {
     super.update();
-    println(robots.size());
     tpTime = (tpTime + 1) % 3;
     if (tpTime == 0) {
       for (int i = 0; i < robots.size(); i++) {

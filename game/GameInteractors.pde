@@ -117,7 +117,6 @@ public class RobotSwingInteractor extends Interactor<Robot, SwingTile> {
     if ((r.facingRight && col+2 == s.col && row == s.row + 2) || (!r.facingRight && col - 1  == s.col && row == s.row + 2)) {
 
       if (r.walking) {
-        print("HELLO");
         return r.state.equals("Swing");
       }
     }
