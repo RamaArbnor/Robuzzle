@@ -12,6 +12,7 @@ class Robot extends Being {
   boolean teleporting;
   boolean selected;
   String state;
+  boolean isHovered;
 
 
   Robot(int i, int j, boolean faceRight, Gif img) {
@@ -36,13 +37,21 @@ class Robot extends Being {
   }
 
   void update() {
-    // println(mouseX);
+
     if(this.shape.contains(new PVector(mouseX, mouseY)) && mousePressed) {
       selected = true;
       selecting = true;
       selectedRobot = this;
       stopSpawns();
     }
+
+    //on robot hover make a grey outline
+    if(this.shape.contains(new PVector(mouseX, mouseY))) {
+      isHovered = true;
+    } else {
+      isHovered = false;
+    }
+
     if(position.x > width || position.y > height) {
       active.remove("Robots", this);
       return;
@@ -61,12 +70,20 @@ class Robot extends Being {
   }
 
   void render() {
+    if(isHovered) {
+      stroke(100);
+      strokeWeight(3);
+      noFill();
+      rect(position.x , position.y, size, size);
+    }
+
     if(selected) {
       stroke(0, 255, 0);
       strokeWeight(3);
       noFill();
       rect(position.x, position.y, size, size);
     }
+
     image(img, position.x + 10, position.y +20, 30, 30);
   }
 
