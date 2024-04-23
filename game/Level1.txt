@@ -1,13 +1,13 @@
 W   W      W   W
-W          W   W
-LSR        W   W
+W   W      W   W
+LSR W      W   W
 W  L#####  W   W
 W          W   W
 W          W   W
 W      L#<<R   W
 W              W
 W            T W
-L>>8#R L#######R
+L>>8#R#L#######R
 W      
 W                F
 L#####R   L###t###R

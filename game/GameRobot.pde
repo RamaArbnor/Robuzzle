@@ -58,6 +58,9 @@ class Robot extends Being {
 		falling = 0;
 		bridge();
 	  }
+	  else if(state.equals("Explode") && falling < 20) {
+		explode();
+	  }
     }
 
     if(emerging && position.y <= (row-1)*size){
@@ -104,5 +107,28 @@ class Robot extends Being {
 		Tile t = new Tile(row + 1, col, "B");
 		active.register("Tiles", t);
 		active.remove("Robots", this);
+	}
+
+	void explode() {
+		int row = (int)position.y / 50 + 1;
+		float tempCol = position.x / 50;
+		int col = Math.round(tempCol);
+
+		for(int i = 0; i < active.groups.get("Tiles").size(); i++){
+			Tile t = (Tile) active.groups.get("Tiles").get(i);
+
+			if(t.col == col && t.row == row && (t.type.equals("B") || t.type.equals("#") || t.type.equals("L") || t.type.equals("R"))){
+				active.remove("Tiles", t);
+				break;
+			}
+		}
+
+		for(int i = active.groups.get("Robots").size() - 1; i >= 0; i--){
+			Robot r = (Robot) active.groups.get("Robots").get(i);
+			
+			if(r.position.dist(position) < 300){
+				active.remove("Robots", r);
+			}
+		}
 	}
 }
