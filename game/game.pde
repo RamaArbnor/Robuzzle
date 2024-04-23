@@ -104,9 +104,19 @@ void createLevel(int number) {
   Screen level = new Screen(img);
   //level1.register("Tiles" , new Tile(3, 0));
   HashMap<Character, PVector> tilePositions = new HashMap<Character, PVector>();
+  ArrayList<PVector> tpsPos = new ArrayList<PVector>();
+  ArrayList<PVector> tpDestPos = new ArrayList<PVector>();
+
 
   //read a text file called Level1.txt
   String[] lines = loadStrings("Level" + number + ".txt");
+  String[] meta = loadStrings("Level" + number + "_meta.txt");
+  int currentMeta = 0;
+  level.addGroup("Robots");
+  level.addGroup("Tiles");
+  level.addGroup("Walls");
+  level.addGroup("Swings");
+  level.addGroup("Teleporters");
   for (int i = 0; i < lines.length; i++) {
     String line = lines[i];
     for (int j = 0; j < line.length(); j++) {
@@ -122,10 +132,17 @@ void createLevel(int number) {
         level.register("Tiles", new Tile(i, j, c+""));
         break;
       case 'F':
-        level.register("Tiles", new Tile(i, j, c+""));
+        int destinationCount = Integer.parseInt(meta[currentMeta].trim());
+        level.register("Destinations", new FinishTile(i, j, destinationCount));
+        currentMeta++;
         break;
       case 'S':
-        level.register("Tiles", new SpawnTile(i, j, "#"+"", 4, 3, 3, this));
+        String[] spawnMeta = meta[currentMeta].split("_");
+        int delay = Integer.parseInt(spawnMeta[0]);
+        int interval = Integer.parseInt(spawnMeta[1]);
+        int count = Integer.parseInt(spawnMeta[2]);
+        level.register("Tiles", new SpawnTile(i, j, "#"+"", delay, interval, count, spawnMeta[3].equals("R"), this));
+        currentMeta++;
         break;
       case '<':
         level.register("Tiles", new Tile(i, j, c+""));
@@ -138,34 +155,49 @@ void createLevel(int number) {
         break;
       case 'T':
         tilePositions.put(c, new PVector(i, j));
+        tpsPos.add(new PVector(i,j));
         break;
       case 't':
         level.register("Tiles", new Tile(i, j, c+""));
         tilePositions.put(c, new PVector(i, j));
+        tpDestPos.add(new PVector(i,j));
         break;
       case '8':
         level.register("Tiles", new Tile(i, j, "#"));
-        level.register("Swings", new SwingTile(i,j));
+        level.register("Swings", new SwingTile(i, j));
         break;
       }
     }
   }
-
-  Teleporter tp = new Teleporter((int)tilePositions.get('T').x, (int)tilePositions.get('T').y, "T", tilePositions.get('t'));
-  level.register("Tiles", tp);
-  level.register("Teleporters", tp);
   
+  if(tpsPos.size() > 0 && tpsPos.size() == tpDestPos.size()){
+    for(int i = 0; i < tpsPos.size(); i++){
+      int destination = Integer.parseInt(meta[currentMeta]);
+      Teleporter tp = new Teleporter((int)tpsPos.get(i).x, (int)tpsPos.get(i).y, "T", tpDestPos.get(destination));
+      
+      level.register("Teleporters", tp);
+      currentMeta++;
+    }  
+  }
+
+  //if (tilePositions.get('T') != null) {
+  //  Teleporter tp = new Teleporter((int)tilePositions.get('T').x, (int)tilePositions.get('T').y, "T", tilePositions.get('t'));
+  //  level.register("Tiles", tp);
+  //  level.register("Teleporters", tp);
+  //}
   RobotTileInteractor rti = new RobotTileInteractor();
   RobotWallInteractor rwi = new RobotWallInteractor();
   RobotRobotInteractor rri = new RobotRobotInteractor();
   RobotTeleporterInteractor rtpi = new RobotTeleporterInteractor();
   RobotSwingInteractor rsi = new RobotSwingInteractor();
-  level.addGroup("Robots");
+  RobotDestinationInteractor rdi = new RobotDestinationInteractor();
+
   level.register("Robots", "Teleporters", rtpi);
   level.register("Robots", "Tiles", rti);
   level.register("Robots", "Swings", rsi);
   level.register("Robots", "Walls", rwi);
   level.register("Robots", "Robots", rri);
+  level.register("Robots", "Destinations", rdi);
   mode.put("level"+number, level);
 }
 
@@ -179,6 +211,8 @@ void draw() {
 
   //3. RENDER
   active.render();
+  
+  
 
   image(myAnimation, 30, 30, 30, 30);
 }

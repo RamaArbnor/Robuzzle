@@ -130,3 +130,26 @@ public class RobotSwingInteractor extends Interactor<Robot, SwingTile> {
     s.setStartingAngle();
   }
 }
+
+public class RobotDestinationInteractor extends Interactor<Robot, FinishTile>{
+  
+  RobotDestinationInteractor(){
+    super();
+  }
+  
+  boolean detect(Robot r, FinishTile f){
+    int row = (int)r.position.y/50;
+    int col = (int)r.position.x/50;
+    if ((r.facingRight && col == f.col && row == f.row) || (!r.facingRight && col + 1  == f.col && row == f.row)) {
+      return true;
+    }
+    return false;
+  }
+
+  void resolve(Robot r, FinishTile f){
+    f.count--;
+    active.remove("Robots", r);
+    println("I AM HOME. There are "+f.count+" left");
+  }
+
+}

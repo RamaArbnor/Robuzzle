@@ -11,7 +11,7 @@ class Robot extends Being {
   boolean swinging;
 
 
-  Robot(int i, int j, Gif img) {
+  Robot(int i, int j, boolean faceRight, Gif img) {
     super();
     row = i;
     col = j;
@@ -26,6 +26,7 @@ class Robot extends Being {
     this.img = img;
     spawn();
     setShape(new Rectangle(position, size, size));
+    facingRight = faceRight;
   }
 
   void update() {
