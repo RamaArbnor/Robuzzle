@@ -1,7 +1,7 @@
+W   W   8  W   W
 W   W      W   W
-W   W      W   W
-LSR  T     W   W
-W  L### ###R   W
+LSR  T         W
+W  L###   #R   W
 W          W   W
 W      #   W   W
 W      L# <R   W

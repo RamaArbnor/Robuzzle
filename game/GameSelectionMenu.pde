@@ -1,9 +1,11 @@
 class SelectionMenu {
     PVector pos;
     PVector size;
+    boolean wasPressed;
     SelectionMenu(){
         pos = new PVector(300,250);
         size = new PVector(400,100);
+        wasPressed = false;
     }
 
     void update(){
@@ -33,10 +35,11 @@ class SelectionMenu {
     // make a function that will check if the mouse is over the rectangle and if it is clicked
     void checkMouse(){
         if(mouseX > pos.x && mouseX < pos.x + size.x && mouseY > pos.y && mouseY < pos.y + size.y){
-            if(mousePressed){
+            if(!mousePressed && wasPressed){
                 if(mouseX > (size.x/4) * 0 + pos.x + 25 && mouseX < (size.x/4) * 0 + pos.x + 25 + 50 && mouseY > pos.y+10 && mouseY < pos.y+10 + 50){
                     selectedRobot.state = "Explode";
-                    selectedRobot.selected = false;
+                    print("49");
+                    selectedRobot.selected = false; //<>//
                     selecting = false;
                     println("1"); //<>//
                     startSpawns();
@@ -46,10 +49,10 @@ class SelectionMenu {
                     selectedRobot.selected = false;
                     selecting = false;
                     println("2");
-                    startSpawns();
+                    startSpawns(); //<>//
                 }
                 if(mouseX > (size.x/4) * 2 + pos.x + 25 && mouseX < (size.x/4) * 2 + pos.x + 25 + 50 && mouseY > pos.y+10 && mouseY < pos.y+10 + 50){
-                    selectedRobot.state = "Swing"; //<>//
+                    selectedRobot.state = "Swing";
                     selectedRobot.selected = false;
                     selecting = false;
                     println("3");
@@ -63,6 +66,7 @@ class SelectionMenu {
                     startSpawns();
                 }
             }
+            wasPressed = mousePressed;
         }
     }
 
