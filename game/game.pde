@@ -22,6 +22,7 @@ SoundFile levelMusic;
 SoundFile tpSound;
 SoundFile explosionSound;
 SoundFile placeSound;
+SoundFile swingSound;
 
 void setup() {
   size(1000, 650);
@@ -34,6 +35,7 @@ void setup() {
   tpSound = new SoundFile(this, "sounds/teleport.mp3");
   explosionSound = new SoundFile(this, "sounds/explosion.wav");
   placeSound = new SoundFile(this, "sounds/place.mp3");
+  swingSound = new SoundFile(this, "sounds/swing.mp3");
   createGameStartScreen();
   createGameOverScreen();
   createLevelCompletedScreen();
@@ -54,7 +56,6 @@ void createGameStartScreen() {
   PImage title = loadImage("assets/Logo.png");
   Screen gameStart = new Screen(img);
 
-  gameStart.register("assets", new Tile(50, 275, title, 450, 150));
 
 
   ButtonBeing start = new ButtonBeing("PLAY", grey, 30, new PVector(width/2-50, 250), white) {
@@ -78,9 +79,11 @@ void createGameStartScreen() {
     }
   };
 
-  gameStart.register(start);
   gameStart.register(tut);
   gameStart.register(quit);
+  gameStart.register("assets", new Tile(50, 275, title, 450, 150));
+  gameStart.register(start);
+
   mode.put("gameStart", gameStart);
 }
 
