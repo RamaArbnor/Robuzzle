@@ -7,7 +7,7 @@ W          W   W
 T      L#<<R   W
 W              W
 W   F       T W
-L>>8#######S##R
+L>>8### ###S##R
 W      
 W        T      F
 L##tR  #L#<<#tStR
