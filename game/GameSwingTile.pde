@@ -1,3 +1,4 @@
+import gifAnimation.*;
 class SwingTile extends Tile {
 
   float startX;
@@ -8,24 +9,60 @@ class SwingTile extends Tile {
   float angle;
   float magnitude;
   boolean jumping;
+  boolean waiting;
   float jump;
+  PApplet parent;
+  Gif img;
+  int previousFrame = 0;
 
-  SwingTile(int i, int j) {
-    super(i, j, "#");
+  SwingTile(int i, int j, PApplet parent) {
+    super(i, j, "");
     current = null;
     jump = 20;
+    this.parent = parent;
+    img = new Gif(parent, "swing.gif");
+    img.loop();
   }
 
   void update() {
     super.update();
+
+    if(waiting) {
+      if(current.facingRight && img.currentFrame() < previousFrame){
+        print("Ja nisa apet");
+        img.stop();
+        waiting = false;
+        jumping = true;
+      } else if(!current.facingRight && img.currentFrame() == 7){
+        print("Ja nisa apet");
+        img.stop();
+        waiting = false;
+        jumping = true;
+      }
+      
+      
+    }
+    previousFrame = img.currentFrame();
     if (current == null) return;
 
     if (jumping) {
       current.position.y -= 2;
-      if(current.position.y <= startY - jump) jumping = false;
-    } else {
+      if(current.position.y <= startY - jump) {
+        jumping = false;
+        img.loop();
+      }
+    } else if(!waiting){
       if ((current.facingRight && current.position.x >= targetX) ||(!current.facingRight && current.position.x <= targetX)) {
-
+        if(!current.facingRight){
+          push();
+          img.stop();
+          img.loop();
+          img.jump(0);
+          scale(1,1);
+          translate(position.x - 50, position.y);
+          image(img, 0, 0, 150, 180);
+          pop();
+        }
         current.swinging = false;
 
         current = null;
@@ -43,12 +80,24 @@ class SwingTile extends Tile {
   }
 
   void render() {
-    super.render();
+    // super.render();
+    push();
+
+    if (current!= null && !current.facingRight && !waiting && !jumping) {
+      translate(position.x + 100, position.y);
+      scale(-1, 1);
+    } else {
+      translate(position.x - 50, position.y);
+      scale(1, 1);
+    }
+
+    image(img, 0, 0, 150, 150);
+    pop();
   }
 
 
   void setStartingAngle() {
-    jumping = true;
+    waiting = true;
     if (current.facingRight) {
       startX = (col-2)*50;
       startY = (row+2)*50 - jump;
@@ -68,6 +117,7 @@ class SwingTile extends Tile {
       magnitude = (float)Math.sqrt((x*x + y*y));
       angle = PI - asin(y/magnitude);
     }
+    // current.position.x = startX;
   }
 
   PVector newRobotPosition() {

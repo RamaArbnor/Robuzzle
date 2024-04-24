@@ -120,10 +120,10 @@ void createLevel(int number) {
   String[] lines = loadStrings("Level" + number + ".txt");
   String[] meta = loadStrings("Level" + number + "_meta.txt");
   int currentMeta = 0;
-  level.addGroup("Robots");
+  level.addGroup("Robots"); 
+  level.addGroup("Swings");
   level.addGroup("Tiles");
   level.addGroup("Walls");
-  level.addGroup("Swings");
   level.addGroup("Teleporters");
   for (int i = 0; i < lines.length; i++) {
     String line = lines[i];
@@ -149,7 +149,7 @@ void createLevel(int number) {
         int delay = Integer.parseInt(spawnMeta[0]);
         int interval = Integer.parseInt(spawnMeta[1]);
         int count = Integer.parseInt(spawnMeta[2]);
-        level.register("Tiles", new SpawnTile(i, j, "#"+"", delay, interval, count, spawnMeta[3].equals("R"), this));
+        level.register("Tiles", new SpawnTile(i, j, "S"+"", delay, interval, count, spawnMeta[3].equals("R"), this));
         currentMeta++;
         break;
       case '<':
@@ -171,8 +171,8 @@ void createLevel(int number) {
         tpDestPos.add(new PVector(i,j));
         break;
       case '8':
-        level.register("Tiles", new Tile(i, j, "#"));
-        level.register("Swings", new SwingTile(i, j));
+        level.register("Tiles", new Tile(i, j, ""));
+        level.register("Swings", new SwingTile(i, j, this));
         break;
       }
     }
