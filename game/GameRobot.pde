@@ -2,6 +2,7 @@
 class Robot extends Being {
   int row;
   int col;
+  Gif[] robotImgs;
   Gif img;
   boolean emerging;
   int falling;
@@ -17,7 +18,7 @@ class Robot extends Being {
   int explodeTimer;
 
 
-  Robot(int i, int j, boolean faceRight, Gif img) {
+  Robot(int i, int j, boolean faceRight, Gif[] images) {
     super();
     row = i;
     col = j;
@@ -32,7 +33,9 @@ class Robot extends Being {
     gravity = new PVector(0, 3);
     selected = false;
     //img = loadImage("assets/solid.png");
-    this.img = img;
+    robotImgs = images;
+    this.img = robotImgs[0];
+    this.img.loop();
     spawn();
     setShape(new Rectangle(position, size, size));
     facingRight = faceRight;
@@ -176,6 +179,31 @@ class Robot extends Being {
     }
   }
   
+  void changeState(String newState){
+    state = newState;
+    if(newState.equals("Explode")){
+      img = robotImgs[1];
+    }
+    else if(newState.equals("Bridge")){
+      img = robotImgs[1];
+    }
+    else if(newState.equals("Teleport")){
+      img = robotImgs[1];
+    }
+    else if(newState.equals("Swing")){
+      img = robotImgs[1];
+    }
+    else {
+      state = "Normal";
+    }
+    img.loop();
+  }
+
+  void resetImg(){
+    img = robotImgs[0];
+    img.loop();
+  }
+
   void destroyMe(){
     active.remove("Robots", this);
     checkLevelFailure();

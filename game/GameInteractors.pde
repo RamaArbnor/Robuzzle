@@ -129,7 +129,8 @@ public class RobotSwingInteractor extends Interactor<Robot, SwingTile> {
   void resolve(Robot r, SwingTile s) {
     s.current = r;
     r.swinging = true;
-    r.state = "Normal";
+    // r.state = "Normal";
+    r.changeState("Normal");
     s.setStartingAngle();
   }
 }

@@ -36,9 +36,11 @@ class SpawnTile extends Tile {
       paused = false;
       totalPauseTime = 0;
       count--;
-      Gif myAnimation = new Gif(parent, "robotRun.gif");
+      Gif[] gifs = new Gif[4];
+      gifs[0] = new Gif(parent, "robotRun.gif");
+      gifs[1] = new Gif(parent, "robotBlue.gif");
       myAnimation.loop();
-      active.register("Robots", new Robot(row, col,spawnRight, myAnimation));
+      active.register("Robots", new Robot(row, col,spawnRight, gifs));
       lastCallTime = currentTime;
     }
   }

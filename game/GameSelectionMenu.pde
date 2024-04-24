@@ -37,28 +37,32 @@ class SelectionMenu {
         if(mouseX > pos.x && mouseX < pos.x + size.x && mouseY > pos.y && mouseY < pos.y + size.y){
             if(!mousePressed && wasPressed){
                 if(mouseX > (size.x/4) * 0 + pos.x + 25 && mouseX < (size.x/4) * 0 + pos.x + 25 + 50 && mouseY > pos.y+10 && mouseY < pos.y+10 + 50){
-                    selectedRobot.state = "Explode";
+                    // selectedRobot.state = "Explode";
+                    selectedRobot.changeState("Explode");
                     selectedRobot.explodeTimer = 60;
                     selectedRobot.selected = false;  //<>//
                     selecting = false;
                     startSpawns();
                 }
                 if(mouseX > (size.x/4) * 1 + pos.x + 25 && mouseX < (size.x/4) * 1 + pos.x + 25 + 50 && mouseY > pos.y+10 && mouseY < pos.y+10 + 50){
-                    selectedRobot.state = "Bridge";
+                    // selectedRobot.state = "Bridge";
+                    selectedRobot.changeState("Bridge");
                     selectedRobot.selected = false;
                     selecting = false;
                     println("2");
                     startSpawns(); //<>//
                 } //<>//
                 if(mouseX > (size.x/4) * 2 + pos.x + 25 && mouseX < (size.x/4) * 2 + pos.x + 25 + 50 && mouseY > pos.y+10 && mouseY < pos.y+10 + 50){
-                    selectedRobot.state = "Swing";
+                    // selectedRobot.state = "Swing";
+                    selectedRobot.changeState("Swing");
                     selectedRobot.selected = false;
                     selecting = false;
                     println("3");
                     startSpawns();
                 }
                 if(mouseX > (size.x/4) * 3 + pos.x + 25 && mouseX < (size.x/4) * 3 + pos.x + 25 + 50 && mouseY > pos.y+10 && mouseY < pos.y+10 + 50){
-                    selectedRobot.state = "Teleport";
+                    // selectedRobot.state = "Teleport";
+                    selectedRobot.changeState("Teleport");
                     selectedRobot.selected = false;
                     selecting = false;
                     println("4");

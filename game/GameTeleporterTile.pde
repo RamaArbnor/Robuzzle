@@ -15,6 +15,7 @@ class Teleporter extends Tile {
     r.position.x = (dest.y)*50;
     r.position.y = (dest.x-1)*50;
     r.teleporting = false;
+    r.resetImg();
     println("Teleporting to: " + dest.x + ", " + dest.y);
   }
 
@@ -38,7 +39,8 @@ class Teleporter extends Tile {
     r.teleporting = true;
     robots.add(r);
     //t.teleport(r);
-    r.state = "Normal";
+    // r.state = "Normal";
+    r.changeState("Normal");
     r.position.y = position.y;
   }
 

@@ -64,8 +64,9 @@ class SwingTile extends Tile {
           pop();
         }
         current.swinging = false;
-
+        current.resetImg();
         current = null;
+        
         return;
       }
 
