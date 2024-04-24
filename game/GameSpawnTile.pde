@@ -36,9 +36,13 @@ class SpawnTile extends Tile {
       paused = false;
       totalPauseTime = 0;
       count--;
-      Gif[] gifs = new Gif[4];
+      Gif[] gifs = new Gif[5];
       gifs[0] = new Gif(parent, "robotRun.gif");
-      gifs[1] = new Gif(parent, "robotBlue.gif");
+      gifs[1] = new Gif(parent, "robotRed.gif");
+      gifs[2] = new Gif(parent, "robotGreen.gif");
+      gifs[3] = new Gif(parent, "robotYellow.gif");
+      gifs[4] = new Gif(parent, "robotBlue.gif");
+
       myAnimation.loop();
       active.register("Robots", new Robot(row, col,spawnRight, gifs));
       lastCallTime = currentTime;

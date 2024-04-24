@@ -17,7 +17,6 @@ class Robot extends Being {
   boolean wasPressed;
   int explodeTimer;
 
-
   Robot(int i, int j, boolean faceRight, Gif[] images) {
     super();
     row = i;
@@ -43,7 +42,6 @@ class Robot extends Being {
   }
 
   void update() {
-
     if (this.shape.contains(new PVector(mouseX, mouseY))) {
       if (!mousePressed && wasPressed) {
         selected = true;
@@ -189,18 +187,24 @@ class Robot extends Being {
       img = robotImgs[1];
     }
     else if(newState.equals("Bridge")){
-      img = robotImgs[1];
-    }
-    else if(newState.equals("Teleport")){
-      img = robotImgs[1];
+      img = robotImgs[2];
     }
     else if(newState.equals("Swing")){
-      img = robotImgs[1];
+      img = robotImgs[3];
+    }
+    else if(newState.equals("Teleport")){
+      img = robotImgs[4];
     }
     else {
       state = "Normal";
+      img = robotImgs[0];
     }
-    img.loop();
+
+	if (newState.equals("Explode")) {
+		img.play();
+		img.ignoreRepeat();
+	}
+    else img.loop();
   }
 
   void resetImg(){
