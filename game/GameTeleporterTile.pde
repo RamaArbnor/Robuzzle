@@ -12,6 +12,7 @@ class Teleporter extends Tile {
   }
 
   void teleport(Robot r) {
+    tpSound.play();
     r.position.x = (dest.y)*50;
     r.position.y = (dest.x-1)*50;
     r.teleporting = false;

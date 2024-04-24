@@ -48,6 +48,7 @@ class SwingTile extends Tile {
     if (jumping) {
       current.position.y -= 2;
       if(current.position.y <= startY - jump) {
+        swingSound.play();
         jumping = false;
         img.loop();
       }

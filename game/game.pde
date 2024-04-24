@@ -1,4 +1,5 @@
 import gifAnimation.*;
+import processing.sound.*;
 
 final color yellow = #F5C825;
 final color darkblue = #1217FF;
@@ -16,6 +17,13 @@ Gif myAnimation;
 boolean selecting;
 SelectionMenu menu;
 Robot selectedRobot;
+
+SoundFile levelMusic;
+SoundFile tpSound;
+SoundFile explosionSound;
+SoundFile placeSound;
+SoundFile swingSound;
+
 void setup() {
   size(1000, 650);
   noSmooth();
@@ -23,10 +31,15 @@ void setup() {
   selecting = false;
   menu = new SelectionMenu();
   mode = new HashMap<String, Screen>();
+  levelMusic = new SoundFile(this, "sounds/level.mp3");
+  tpSound = new SoundFile(this, "sounds/teleport.mp3");
+  explosionSound = new SoundFile(this, "sounds/explosion.wav");
+  placeSound = new SoundFile(this, "sounds/place.mp3");
+  swingSound = new SoundFile(this, "sounds/swing.mp3");
   createGameStartScreen();
   createGameOverScreen();
   createLevelCompletedScreen();
-  createLevel(1);
+  // createLevel(1);
 
   myAnimation = new Gif(this, "robotRun.gif");
   myAnimation.loop();
@@ -43,7 +56,6 @@ void createGameStartScreen() {
   PImage title = loadImage("assets/Logo.png");
   Screen gameStart = new Screen(img);
 
-  gameStart.register("assets", new Tile(50, 275, title, 450, 150));
 
 
   ButtonBeing start = new ButtonBeing("PLAY", grey, 30, new PVector(width/2-50, 250), white) {
@@ -67,9 +79,11 @@ void createGameStartScreen() {
     }
   };
 
-  gameStart.register(start);
   gameStart.register(tut);
   gameStart.register(quit);
+  gameStart.register("assets", new Tile(50, 275, title, 450, 150));
+  gameStart.register(start);
+
   mode.put("gameStart", gameStart);
 }
 
@@ -96,6 +110,8 @@ void createLevelCompletedScreen(){
 
 void createLevel(int number) {
   PImage img = loadImage("assets/background.jpg");
+  levelMusic.play();
+  levelMusic.amp(0.02);
   Screen level = new Screen(img);
   //level1.register("Tiles" , new Tile(3, 0));
   HashMap<Character, PVector> tilePositions = new HashMap<Character, PVector>();

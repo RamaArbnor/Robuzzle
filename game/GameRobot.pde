@@ -143,6 +143,8 @@ class Robot extends Being {
 
   // become a tile by taking the position, dividing by 50 and adding a new tile in that position
   void bridge() {
+    placeSound.play();
+    
     int row = (int)position.y / 50;
     int col = (int)position.x / 50;
 
@@ -155,6 +157,8 @@ class Robot extends Being {
   }
 
   void explode() {
+    explosionSound.play();
+    explosionSound.amp(0.5);
     int row = (int)position.y / 50 + 1;
     float tempCol = position.x / 50;
     int col = Math.round(tempCol);
