@@ -13,6 +13,7 @@ abstract class ButtonBeing extends TextBeing{
     void render(){
       noStroke();
       fill(background);
+      // textSize(size);
       rect(position.x-10, position.y, textWidth(text)+20, size+10, 20);
       super.render();
     }

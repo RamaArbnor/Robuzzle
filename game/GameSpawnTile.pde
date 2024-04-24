@@ -11,6 +11,7 @@ class SpawnTile extends Tile {
   int startPauseTime;
   int totalPauseTime;
   boolean paused;
+  PFont font;
 
   SpawnTile(int i, int j, String t, int d, int inter, int c, boolean right, PApplet parent) {
     super(i, j, t);
@@ -22,8 +23,9 @@ class SpawnTile extends Tile {
     startTime = millis();
     totalPauseTime = 0;
     paused = false;
+    font = createFont("Jersey10-Regular.ttf", 32);
 
-	img = loadImage("assets/start.png");
+	  img = loadImage("assets/start.png");
   }
 
   @Override
@@ -43,6 +45,18 @@ class SpawnTile extends Tile {
       active.register("Robots", new Robot(row, col,spawnRight, gifs));
       lastCallTime = currentTime;
     }
+  }
+
+  void render(){
+    super.render();
+    fill(green);
+    push();
+    textFont(font);
+    textSize(60);
+    float adjust = size/2 - (textWidth(""+count)/2) + 1;
+    text(""+count, position.x + adjust, position.y - 5);
+    pop();
+  
   }
   
   void stop(){

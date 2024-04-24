@@ -88,22 +88,74 @@ void createGameStartScreen() {
 }
 
 void createGameOverScreen() {
-  PImage img = loadImage("assets/startBackground.jpg");
-  Screen gameOver = new Screen(img);
-  gameOver.register(new TextBeing("GAME OVER", darkblue, 50, new PVector(width/2, height/2)));
+  DoubleScreen gameOver = new DoubleScreen(active);
+  PImage title = loadImage("assets/gameOver.png");
 
-  ButtonBeing restart = new ButtonBeing("play again", green, 30, new PVector(width/2, 110+height/2), red) {
+  ButtonBeing tut = new ButtonBeing("RESTART", grey, 30, new PVector((width - textWidth("RESTART") - 20)/2, 300), white) {
     void act() {
-      createLevel(1);
-      active = mode.get("level1");
+      levelMusic.stop();
+      createLevel(currentLevel);
+      active = mode.get("level" + currentLevel);
     }
   };
-  gameOver.register(restart);
+
+  ButtonBeing quit = new ButtonBeing("MAIN MENU", grey, 30, new PVector((width - textWidth("MAIN MENU") - 20)/2, 350), white) {
+    void act() {
+      levelMusic.stop();
+      active = mode.get("gameStart");
+    }
+  };
+  gameOver.register(tut);
+  gameOver.register(quit);
+  gameOver.register("assets", new Tile(50, 275, title, 450, 150));
+
   mode.put("gameOver", gameOver);
+  active = gameOver;
+}
+
+boolean isLastLevel(int level){
+  int nextLevel = level + 1;
+  return loadStrings("Level" + nextLevel + ".txt") == null 
+  || loadStrings("Level" + nextLevel + "_meta.txt") == null;
+
 }
 
 void createLevelCompletedScreen(){
+  DoubleScreen next = new DoubleScreen(active);
+  PImage title = loadImage("assets/levelComplete.png");
 
+  // textSize(30);
+  if(!isLastLevel(currentLevel)){
+    ButtonBeing restart = new ButtonBeing("NEXT LEVEL", grey, 30, new PVector((width - textWidth("NEXT LEVEL") - 20)/2, 250), white) {
+      void act() {
+        currentLevel += 1;
+        levelMusic.stop();
+        createLevel(currentLevel);
+        active = mode.get("level" + currentLevel);
+      }
+    };
+    next.register(restart);
+  }
+  ButtonBeing tut = new ButtonBeing("RESTART", grey, 30, new PVector((width - textWidth("RESTART") - 20)/2, 300), white) {
+    void act() {
+      levelMusic.stop();
+      createLevel(currentLevel);
+      active = mode.get("level" + currentLevel);
+    }
+  };
+
+  ButtonBeing quit = new ButtonBeing("MAIN MENU", grey, 30, new PVector((width - textWidth("MAIN MENU") - 20)/2, 350), white) {
+    void act() {
+      levelMusic.stop();
+      active = mode.get("gameStart");
+    }
+  };
+
+  next.register(tut);
+  next.register(quit);
+  next.register("assets", new Tile(50, 275, title, 450, 150));
+
+  active = next;
 }
 
 
@@ -111,7 +163,8 @@ void createLevelCompletedScreen(){
 void createLevel(int number) {
   PImage img = loadImage("assets/background.jpg");
   levelMusic.play();
-  levelMusic.amp(0.02);
+  levelMusic.amp(0.04);
+  levelMusic.amp(0.04);
   Screen level = new Screen(img);
   //level1.register("Tiles" , new Tile(3, 0));
   HashMap<Character, PVector> tilePositions = new HashMap<Character, PVector>();
@@ -264,6 +317,7 @@ void checkLevelCompletion(){
   }
   if(levelFinished){
     println("BRAVOOOO");
+    createLevelCompletedScreen();
     
   }
 }
@@ -289,7 +343,8 @@ void checkLevelFailure(){
   }
   
   if(robotsCount+robotsToBeSpawned < robotsToArrive){
-    println("DESHTAK");  
+    println("DESHTAK"); 
+    createGameOverScreen(); 
   }
   
 }

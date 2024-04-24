@@ -54,7 +54,7 @@ class Screen{
   }
   
   void render(){
-    background(img);
+    if(img != null) background(img);
     for(int i=everyone.size()-1; i>=0; i--){
       everyone.get(i).render();
     }

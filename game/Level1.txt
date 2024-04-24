@@ -1,13 +1,13 @@
-W   W   8  W   W
+W#   W   8  W   W
 W   W          W
-W              W
+W          F   W
 L#R####   ###S#W
 W         #    W
 W          W   W
 T      L#<<R   W
 W              W
-W   F       T W
-L>>8### ###S##R
+W           T W
+L>>8### ######R
 W      
 W        T      F
 L##tR  #L#<<#tStR
