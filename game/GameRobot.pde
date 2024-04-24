@@ -173,7 +173,7 @@ class Robot extends Being {
     }
 
     for (int i = active.groups.get("Robots").size() - 1; i >= 0; i--) {
-      if(i >= active.groups.get("Robots").size()) continue;
+      if(active.groups.get("Robots") == null || i >= active.groups.get("Robots").size()) continue;
       Robot r = (Robot) active.groups.get("Robots").get(i);
 
       if (r.position.dist(position) < 51) {
