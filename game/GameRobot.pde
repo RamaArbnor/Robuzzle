@@ -163,7 +163,9 @@ class Robot extends Being {
     float tempCol = position.x / 50;
     int col = Math.round(tempCol);
 
+    if(active.groups.get("Tiles") != null){
     for (int i = active.groups.get("Tiles").size()-1; i >= 0; i--) {
+      if(active.groups.get("Tiles") == null || i >= active.groups.get("Tiles").size()) continue;
       Tile t = (Tile) active.groups.get("Tiles").get(i);
 
       if (t.col == col && t.row == row && (t.type.equals("B") || t.type.equals("#") || t.type.equals("L") || t.type.equals("R"))) {
@@ -171,7 +173,9 @@ class Robot extends Being {
         break;
       }
     }
+    }
 
+    if(active.groups.get("Robots") != null){
     for (int i = active.groups.get("Robots").size() - 1; i >= 0; i--) {
       if(active.groups.get("Robots") == null || i >= active.groups.get("Robots").size()) continue;
       Robot r = (Robot) active.groups.get("Robots").get(i);
@@ -180,6 +184,7 @@ class Robot extends Being {
         //active.remove("Robots", r);
         r.destroyMe();
       }
+    }
     }
   }
   

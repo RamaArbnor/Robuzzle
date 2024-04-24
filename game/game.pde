@@ -98,7 +98,7 @@ void createGameStartScreen() {
 void createGameOverScreen() {
   DoubleScreen gameOver = new DoubleScreen(active);
   PImage title = loadImage("assets/gameOver.png");
-
+  textSize(30);
   ButtonBeing tut = new ButtonBeing("RESTART", grey, 30, new PVector((width - textWidth("RESTART") - 20)/2, 300), white) {
     void act() {
       levelMusic.stop();
@@ -123,8 +123,8 @@ void createGameOverScreen() {
 
 boolean isLastLevel(int level){
   int nextLevel = level + 1;
-  return loadStrings("Level" + nextLevel + ".txt") == null 
-  || loadStrings("Level" + nextLevel + "_meta.txt") == null;
+  return loadStrings("maps/Level" + nextLevel + ".txt") == null 
+  || loadStrings("maps/Level" + nextLevel + "_meta.txt") == null;
 
 }
 
@@ -132,7 +132,7 @@ void createLevelCompletedScreen(){
   DoubleScreen next = new DoubleScreen(active);
   PImage title = loadImage("assets/levelComplete.png");
 
-  // textSize(30);
+  textSize(30);
   if(!isLastLevel(currentLevel)){
     ButtonBeing restart = new ButtonBeing("NEXT LEVEL", grey, 30, new PVector((width - textWidth("NEXT LEVEL") - 20)/2, 250), white) {
       void act() {
@@ -279,7 +279,7 @@ void createLevelSelectionScreen() {
 
   //create a grid 3x2 of buttons for levels
 
-  int x = 150;
+  int x = 120;
   int y = 100;
   int w = 200;
   int h = 100;
@@ -292,7 +292,7 @@ void createLevelSelectionScreen() {
 
   for (int i = 1; i <= levelCount; i++) {
     final int index = i;
-    ButtonBeing level = new ButtonBeing(i+"", grey, 40, new PVector(x, y), white) {
+    ButtonBeing level = new ButtonBeing(i+"", grey, 40, new PVector(x, y), white, 30) {
       void act() {
         createLevel(index);
         active = mode.get("level"+index);
@@ -302,11 +302,12 @@ void createLevelSelectionScreen() {
     levelSelection.register(level);
     x += width/4;
     if (i % 4 == 0) {
-      x = 150;
+      x = 120;
       y += 150;
     }
   }
 
+  textSize(30);
   ButtonBeing back = new ButtonBeing("BACK", grey, 30, new PVector(width/2-50, 500), white) {
     void act() {
       active = mode.get("gameStart");
