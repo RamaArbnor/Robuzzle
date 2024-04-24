@@ -73,7 +73,14 @@ void createGameStartScreen() {
     }
   };
 
-  ButtonBeing quit = new ButtonBeing("QUIT", grey, 30, new PVector(width/2-50, 350), white) {
+  ButtonBeing lvSelect = new ButtonBeing("SELECT LV", grey, 30, new PVector(width/2-80, 350), white) {
+    void act() {
+      createLevelSelectionScreen();
+      active = mode.get("levelSelection");
+    }
+  };
+
+  ButtonBeing quit = new ButtonBeing("QUIT", grey, 30, new PVector(width/2-50, 400), white) {
     void act() {
       exit();
     }
@@ -81,6 +88,7 @@ void createGameStartScreen() {
 
   gameStart.register(tut);
   gameStart.register(quit);
+  gameStart.register(lvSelect);
   gameStart.register("assets", new Tile(50, 275, title, 450, 150));
   gameStart.register(start);
 
@@ -120,8 +128,8 @@ void createLevel(int number) {
 
 
   //read a text file called Level1.txt
-  String[] lines = loadStrings("Level" + number + ".txt");
-  String[] meta = loadStrings("Level" + number + "_meta.txt");
+  String[] lines = loadStrings("maps/Level" + number + ".txt");
+  String[] meta = loadStrings("maps/Level" + number + "_meta.txt");
   int currentMeta = 0;
   level.addGroup("Robots"); 
   level.addGroup("Swings");
@@ -210,6 +218,51 @@ void createLevel(int number) {
   level.register("Robots", "Robots", rri);
   level.register("Robots", "Destinations", rdi);
   mode.put("level"+number, level);
+}
+
+void createLevelSelectionScreen() {
+  PImage img = loadImage("assets/startBackground.jpg");
+  Screen levelSelection = new Screen(img);
+
+  //create a grid 3x2 of buttons for levels
+
+  int x = 150;
+  int y = 100;
+  int w = 200;
+  int h = 100;
+
+  int levelCount = 0;
+  while(true){
+    if(loadStrings("maps/Level" + (levelCount+1) + ".txt") == null || loadStrings("maps/Level" + (levelCount+1) + "_meta.txt") == null)  break;
+    levelCount++;
+  }
+
+  for (int i = 1; i <= levelCount; i++) {
+    final int index = i;
+    ButtonBeing level = new ButtonBeing(i+"", grey, 40, new PVector(x, y), white) {
+      void act() {
+        createLevel(index);
+        active = mode.get("level"+index);
+        currentLevel = index;
+      }
+    };
+    levelSelection.register(level);
+    x += width/4;
+    if (i % 4 == 0) {
+      x = 150;
+      y += 150;
+    }
+  }
+
+  ButtonBeing back = new ButtonBeing("BACK", grey, 30, new PVector(width/2-50, 500), white) {
+    void act() {
+      active = mode.get("gameStart");
+    }
+  };
+
+  levelSelection.register(back);
+
+  mode.put("levelSelection", levelSelection);
 }
 
 //GAME LOOP

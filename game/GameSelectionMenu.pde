@@ -2,10 +2,19 @@ class SelectionMenu {
     PVector pos;
     PVector size;
     boolean wasPressed;
+    PImage explode;
+    PImage bridge;
+    PImage swing;
+    PImage teleport;
     SelectionMenu(){
         pos = new PVector(300,250);
         size = new PVector(400,100);
         wasPressed = false;
+        explode = loadImage("assets/explosionIcon.png");
+        bridge = loadImage("assets/bridgeIcon.png");
+        swing = loadImage("assets/swingIcon.png");
+        teleport = loadImage("assets/teleportIcon.png");
+
     }
 
     void update(){
@@ -18,17 +27,13 @@ class SelectionMenu {
         rect(pos.x,pos.y,size.x,size.y,30);
 
         noStroke();
-        fill(255);
-        rect((size.x/4) * 0 + pos.x + 25 , pos.y+10, 50, 50,30);
+        image(explode,(size.x/4) * 0 + pos.x + 25 , pos.y+25, 50, 50);
 
-        fill(255);
-        rect((size.x/4) * 1 + pos.x + 25 , pos.y+10, 50, 50,30);
+        image(bridge,(size.x/4) * 1 + pos.x + 25 , pos.y+25, 50, 50);
 
-        fill(255);
-        rect((size.x/4) * 2 + pos.x + 25 , pos.y+10, 50, 50,30);
+        image(swing,(size.x/4) * 2 + pos.x + 25 , pos.y+25, 50, 50);
 
-        fill(255);
-        rect((size.x/4) * 3 + pos.x + 25 , pos.y+10, 50, 50,30);
+        image(teleport,(size.x/4) * 3 + pos.x + 25 , pos.y+25, 50, 50);
         
     }
 
