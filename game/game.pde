@@ -341,13 +341,41 @@ void createLevelSelectionScreen() {
     levelCount++;
   }
 
+  int levelsUnlocked = 1;
+  if (loadStrings("maps/unlocked.txt") != null){
+    try {
+      levelsUnlocked = Integer.parseInt(loadStrings("maps/unlocked.txt")[0].trim());
+    } catch (Exception e) {
+      levelsUnlocked = 1;
+    }
+  }
+
+
+
   for (int i = 1; i <= levelCount; i++) {
     final int index = i;
+    final int unlocked = levelsUnlocked;
+
     ButtonBeing level = new ButtonBeing(i + "", grey, 40, new PVector(x, y), white, 30) {
       void act() {
-        createLevel(index);
-        active =mode.get("level" + index);
-        currentLevel = index;
+        if(unlocked >= index){
+          createLevel(index);
+          active =mode.get("level" + index);
+          currentLevel = index;
+        }
+      }
+
+      @Override
+      void render() {
+        super.render();
+        if (unlocked < index) {
+          //make an x
+          stroke(255, 0, 0);
+          strokeWeight(5);
+          line(position.x , position.y + 10, position.x + 30, position.y + 40);
+          line(position.x + 30, position.y + 10, position.x, position.y + 40);
+
+        }
       }
     };
     levelSelection.register(level);
@@ -567,6 +595,29 @@ void checkLevelCompletion() {
   }
   if (levelFinished) {
     println("BRAVOOOO");
+    int levelsUnlocked = 1;
+    if (loadStrings("maps/unlocked.txt") != null){
+      try {
+        levelsUnlocked = Integer.parseInt(loadStrings("maps/unlocked.txt")[0].trim());
+      } catch (Exception e) {
+        levelsUnlocked = 1;
+      }
+    }
+    if (currentLevel == levelsUnlocked) {
+      try {
+        String sketchPath = sketchPath(""); // Get the path to the sketch directory
+        File directory = new File(sketchPath);
+        File file = new File(directory, "maps/unlocked.txt");
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+          writer.write((currentLevel + 1) + "");
+        }
+        catch(IOException e) {
+          println("An error occurred while writing to the file: " + e.getMessage());
+        }
+      } catch (Exception e) {
+        println("An error occurred while writing to the file: " + e.getMessage());
+      }
+    }
     createLevelCompletedScreen();
   }
 }
