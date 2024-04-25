@@ -24,6 +24,10 @@ SoundFile explosionSound;
 SoundFile placeSound;
 SoundFile swingSound;
 
+boolean isMapMaker = false;
+String selectedTile;
+String[] tileTypes = {" ", "#", "L", "R", "<", ">", "W", "t"};
+
 void setup() {
   size(1000, 650);
   noSmooth();
@@ -80,7 +84,14 @@ void createGameStartScreen() {
     }
   };
 
-  ButtonBeing quit = new ButtonBeing("QUIT", grey, 30, new PVector(width/2-50, 400), white) {
+  ButtonBeing lvMaker = new ButtonBeing("LV MAKER", grey, 30, new PVector(width/2-80, 400), white) {
+    void act() {
+      createLevelMakerScreen();
+      active = mode.get("levelMaker");
+    }
+  };
+
+  ButtonBeing quit = new ButtonBeing("QUIT", grey, 30, new PVector(width/2-50, 450), white) {
     void act() {
       exit();
     }
@@ -89,6 +100,7 @@ void createGameStartScreen() {
   gameStart.register(tut);
   gameStart.register(quit);
   gameStart.register(lvSelect);
+  gameStart.register(lvMaker);
   gameStart.register("assets", new Tile(50, 275, title, 450, 150));
   gameStart.register(start);
 
@@ -179,6 +191,12 @@ void createLevel(int number) {
   ArrayList<PVector> tpsPos = new ArrayList<PVector>();
   ArrayList<PVector> tpDestPos = new ArrayList<PVector>();
 
+  ButtonBeing back = new ButtonBeing("<<", grey, 30, new PVector(width-50, 10), white) {
+    void act() {
+      active = mode.get("gameStart");
+    }
+  };
+  level.register(back); 
 
   //read a text file called Level1.txt
   String[] lines = loadStrings("maps/Level" + number + ".txt");
@@ -265,6 +283,7 @@ void createLevel(int number) {
   //  level.register("Tiles", tp);
   //  level.register("Teleporters", tp);
   //}
+
   RobotTileInteractor rti = new RobotTileInteractor();
   RobotWallInteractor rwi = new RobotWallInteractor();
   RobotRobotInteractor rri = new RobotRobotInteractor();
@@ -325,6 +344,25 @@ void createLevelSelectionScreen() {
   levelSelection.register(back);
 
   mode.put("levelSelection", levelSelection);
+}
+
+void createLevelMakerScreen(){
+  isMapMaker = true;
+  PImage img = loadImage("assets/startBackground.jpg");
+  Screen levelMaker = new Screen(img);
+
+  ButtonBeing back = new ButtonBeing("<<", grey, 30, new PVector(width-50, 10), white) {
+    void act() {
+      active = mode.get("gameStart");
+    }
+  };
+
+  MapMaker mapMaker = new MapMaker();
+
+  levelMaker.register(back);
+  levelMaker.register(mapMaker);
+
+  mode.put("levelMaker", levelMaker);
 }
 
 //GAME LOOP
@@ -411,13 +449,38 @@ void checkLevelFailure(){
   
 }
 
+void mouseWheel(MouseEvent event){
+    if(event.getCount() > 0){
+        for(int i = 0; i < tileTypes.length; i++){
+            if(tileTypes[i].equals(selectedTile)){
+                if(i == tileTypes.length - 1){
+                    selectedTile = tileTypes[0];
+                }else{
+                    selectedTile = tileTypes[i + 1];
+                }
+                break;
+            }
+        }
+    }else{
+        for(int i = 0; i < tileTypes.length; i++){
+            if(tileTypes[i].equals(selectedTile)){
+                if(i == 0){
+                    selectedTile = tileTypes[tileTypes.length - 1];
+                }else{
+                    selectedTile = tileTypes[i - 1];
+                }
+                break;
+            }
+        }
+    }
+}
 
 void keyPressed() {
   // Check if the pressed key is the spacebar
-  for(int i = 0; i < active.groups.get("Robots").size(); i++){
-    println("Robot "+active.groups.get("Robots").get(i).position);
-  }
-  for(int i = 0; i < active.groups.get("Tiles").size(); i++){
-    println("Tile " + active.groups.get("Tiles").get(i).position);
-  }
+  // for(int i = 0; i < active.groups.get("Robots").size(); i++){
+  //   println("Robot "+active.groups.get("Robots").get(i).position);
+  // }
+  // for(int i = 0; i < active.groups.get("Tiles").size(); i++){
+  //   println("Tile " + active.groups.get("Tiles").get(i).position);
+  // }
 }
