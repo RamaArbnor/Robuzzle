@@ -8,10 +8,8 @@ class DoubleScreen extends Screen {
   }
 
   @Override
-  void render(){
+    void render() {
     bgScreen.render();
     super.render();
   }
-
-
 }

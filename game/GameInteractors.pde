@@ -2,7 +2,7 @@ public class RobotTileInteractor extends Interactor<Robot, Tile> {
 
   RobotTileInteractor() {
     super();
-  }
+  } 
 
   boolean detect(Robot r, Tile t) {
     if (r == null) return false;
@@ -16,9 +16,8 @@ public class RobotTileInteractor extends Interactor<Robot, Tile> {
       print("Rash: " + r.falling);
       r.destroyMe();
       //active.remove("Robots", r);
-    }
-    else if(r.falling > 40) r.position.y = (t.row-1)*50;
-    
+    } else if (r.falling > 40) r.position.y = (t.row-1)*50;
+
     if (t.type.equals("<")) {
       r.velocity = new PVector(-1, 0);
       r.facingRight = false;
@@ -76,21 +75,21 @@ public class RobotRobotInteractor extends Interactor<Robot, Robot> {
     int tRow = (int)t.position.y/50;
     int tCol = (int)t.position.x/50;
 
-	if (!r.emerging	&& r.facingRight == t.facingRight && ((r.facingRight && rCol + 1 == tCol && rRow == tRow)
-		|| (!r.facingRight && rCol - 1 == tCol && rRow == tRow))) {
-		return true;
-	}
-	if (r.falling > 29 && rCol == tCol && rRow + 1 == tRow) {
-		r.falling = 30;
-		return true;
-	}
+    if (!r.emerging	&& r.facingRight == t.facingRight && ((r.facingRight && rCol + 1 == tCol && rRow == tRow)
+      || (!r.facingRight && rCol - 1 == tCol && rRow == tRow))) {
+      return true;
+    }
+    if (r.falling > 29 && rCol == tCol && rRow + 1 == tRow) {
+      r.falling = 30;
+      return true;
+    }
 
     return false;
   }
 
-	void resolve(Robot r, Robot t){
-		r.velocity = new PVector(0,0);
-	}
+  void resolve(Robot r, Robot t) {
+    r.velocity = new PVector(0, 0);
+  }
 }
 
 public class RobotTeleporterInteractor extends Interactor<Robot, Teleporter> {
@@ -129,11 +128,12 @@ public class RobotSwingInteractor extends Interactor<Robot, SwingTile> {
   }
 
   void resolve(Robot r, SwingTile s) {
-    s.current = r;
+    // s.current = r;
+    s.robots.add(r);
     r.swinging = true;
     // r.state = "Normal";
     r.changeState("Normal");
-    s.setStartingAngle();
+    // s.setStartingAngle();
   }
 }
 
@@ -156,6 +156,6 @@ public class RobotDestinationInteractor extends Interactor<Robot, FinishTile> {
     f.count--;
     active.remove("Robots", r);
     println("I AM HOME. There are "+f.count+" left");
-    if(f.count <= 0) checkLevelCompletion();
+    if (f.count <= 0) checkLevelCompletion();
   }
 }

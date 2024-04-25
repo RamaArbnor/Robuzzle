@@ -26,16 +26,16 @@ class SpawnTile extends Tile {
     paused = false;
     font = createFont("Jersey10-Regular.ttf", 32);
     started = false;
-	  img = loadImage("assets/start.png");
+    img = loadImage("assets/start.png");
   }
 
   @Override
-  void update() {
+    void update() {
     int currentTime = millis() - startTime;
-    
+
     if ((!paused && count > 0 && ((!started && currentTime >= delay) || (started && currentTime - lastCallTime >= interval))) || (
-    paused && count > 0 && ((!started && currentTime >= delay) || (started && currentTime - lastCallTime - totalPauseTime >= interval)
-    ))) {
+      paused && count > 0 && ((!started && currentTime >= delay) || (started && currentTime - lastCallTime - totalPauseTime >= interval)
+      ))) {
       started = true;
       paused = false;
       totalPauseTime = 0;
@@ -48,12 +48,12 @@ class SpawnTile extends Tile {
       gifs[4] = new Gif(parent, "robotBlue.gif");
 
       myAnimation.loop();
-      active.register("Robots", new Robot(row, col,spawnRight, gifs));
+      active.register("Robots", new Robot(row, col, spawnRight, gifs));
       lastCallTime = currentTime;
     }
   }
 
-  void render(){
+  void render() {
     super.render();
     fill(green);
     push();
@@ -62,17 +62,14 @@ class SpawnTile extends Tile {
     float adjust = size/2 - (textWidth(""+count)/2) + 1;
     text(""+count, position.x + adjust, position.y - 5);
     pop();
-  
   }
-  
-  void stop(){
+
+  void stop() {
     startPauseTime = millis();
     paused = true;
   }
-  
-  void start(){
+
+  void start() {
     totalPauseTime += millis() - startPauseTime;
   }
-
-  
 }

@@ -6,6 +6,7 @@ class SwingTile extends Tile {
   float targetX;
   float targetY;
   Robot current;
+  ArrayList<Robot> robots;
   float angle;
   float magnitude;
   boolean jumping;
@@ -16,50 +17,54 @@ class SwingTile extends Tile {
   int previousFrame = 0;
 
   SwingTile(int i, int j, PApplet parent) {
-    super(i, j, "");
+    super(i, j, "8");
     current = null;
     jump = 20;
     this.parent = parent;
     img = new Gif(parent, "swing.gif");
     img.loop();
+    robots = new ArrayList<Robot>();
   }
 
   void update() {
     super.update();
-
-    if(waiting) {
-      if(current.facingRight && img.currentFrame() < previousFrame){
+    if (current == null && robots.size() > 0) {
+      current = robots.get(0);
+      robots.remove(0);
+      current.swinging = true;
+      setStartingAngle();
+    }
+    if (waiting) {
+      if (current.facingRight && img.currentFrame() < previousFrame) {
         print("Ja nisa apet");
         img.stop();
         waiting = false;
         jumping = true;
-      } else if(!current.facingRight && img.currentFrame() == 7){
+      } else if (!current.facingRight && img.currentFrame() == 7) {
         print("Ja nisa apet");
         img.stop();
         waiting = false;
         jumping = true;
       }
-      
-      
     }
     previousFrame = img.currentFrame();
     if (current == null) return;
 
     if (jumping) {
       current.position.y -= 2;
-      if(current.position.y <= startY - jump) {
+      if (current.position.y <= startY - jump) {
         swingSound.play();
         jumping = false;
         img.loop();
       }
-    } else if(!waiting){
+    } else if (!waiting) {
       if ((current.facingRight && current.position.x >= targetX) ||(!current.facingRight && current.position.x <= targetX)) {
-        if(!current.facingRight){
+        if (!current.facingRight) {
           push();
           img.stop();
           img.loop();
           img.jump(0);
-          scale(1,1);
+          scale(1, 1);
           translate(position.x - 50, position.y);
           image(img, 0, 0, 150, 180);
           pop();
@@ -67,7 +72,7 @@ class SwingTile extends Tile {
         current.swinging = false;
         current.resetImg();
         current = null;
-        
+
         return;
       }
 

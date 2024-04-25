@@ -1,5 +1,4 @@
-
-class Robot extends Being {
+ class Robot extends Being {
   int row;
   int col;
   Gif[] robotImgs;
@@ -68,7 +67,7 @@ class Robot extends Being {
     if (swinging || teleporting) return;
     if (state.equals("Explode") && falling <= 3) {
       explodeTimer--;
-      if(explodeTimer <= 0) explode();
+      if (explodeTimer <= 0) explode();
       return;
     }
     walking = false;
@@ -146,7 +145,7 @@ class Robot extends Being {
   // become a tile by taking the position, dividing by 50 and adding a new tile in that position
   void bridge() {
     placeSound.play();
-    
+
     int row = (int)position.y / 50;
     int col = (int)position.x / 50;
 
@@ -165,73 +164,68 @@ class Robot extends Being {
     float tempCol = position.x / 50;
     int col = Math.round(tempCol);
 
-    if(active.groups.get("Tiles") != null){
-    for (int i = active.groups.get("Tiles").size()-1; i >= 0; i--) {
-      if(active.groups.get("Tiles") == null || i >= active.groups.get("Tiles").size()) continue;
-      Tile t = (Tile) active.groups.get("Tiles").get(i);
+    if (active.groups.get("Tiles") != null) {
+      for (int i = active.groups.get("Tiles").size()-1; i >= 0; i--) {
+        if (active.groups.get("Tiles") == null || i >= active.groups.get("Tiles").size()) continue;
+        Tile t = (Tile) active.groups.get("Tiles").get(i);
 
-      if (t.col == col && t.row == row && (t.type.equals("B") || t.type.equals("#") || t.type.equals("L") || t.type.equals("R"))) {
-        active.remove("Tiles", t);
-        break;
+        if (t.col == col && t.row == row && (t.type.equals("B") || t.type.equals("#") || t.type.equals("L") || t.type.equals("R"))) {
+          active.remove("Tiles", t);
+          break;
+        }
       }
     }
-    }
-    if(active.groups.get("Walls") != null){
-    for (int i = active.groups.get("Walls").size()-1; i >= 0; i--) {
-      if(active.groups.get("Walls") == null || i >= active.groups.get("Walls").size()) continue;
-      Tile t = (Tile) active.groups.get("Walls").get(i);
+    if (active.groups.get("Walls") != null) {
+      for (int i = active.groups.get("Walls").size()-1; i >= 0; i--) {
+        if (active.groups.get("Walls") == null || i >= active.groups.get("Walls").size()) continue;
+        Tile t = (Tile) active.groups.get("Walls").get(i);
 
-      if (t.col == col && t.row == row && (t.type.equals("B") || t.type.equals("#") || t.type.equals("L") || t.type.equals("R"))) {
-        active.remove("Walls", t);
-        break;
+        if (t.col == col && t.row == row && (t.type.equals("B") || t.type.equals("#") || t.type.equals("L") || t.type.equals("R"))) {
+          active.remove("Walls", t);
+          break;
+        }
       }
     }
-    }
 
-    if(active.groups.get("Robots") != null){
-    for (int i = active.groups.get("Robots").size() - 1; i >= 0; i--) {
-      if(active.groups.get("Robots") == null || i >= active.groups.get("Robots").size()) continue;
-      Robot r = (Robot) active.groups.get("Robots").get(i);
+    if (active.groups.get("Robots") != null) {
+      for (int i = active.groups.get("Robots").size() - 1; i >= 0; i--) {
+        if (active.groups.get("Robots") == null || i >= active.groups.get("Robots").size()) continue;
+        Robot r = (Robot) active.groups.get("Robots").get(i);
 
-      if (r.position.dist(position) < 51 && !r.emerging) {
-        //active.remove("Robots", r);
-        r.destroyMe();
+        if (r.position.dist(position) < 51 && !r.emerging) {
+          //active.remove("Robots", r);
+          r.destroyMe();
+        }
       }
-    }
     }
   }
-  
-  void changeState(String newState){
+
+  void changeState(String newState) {
     state = newState;
-    if(newState.equals("Explode")){
+    if (newState.equals("Explode")) {
       img = robotImgs[1];
-    }
-    else if(newState.equals("Bridge")){
+    } else if (newState.equals("Bridge")) {
       img = robotImgs[2];
-    }
-    else if(newState.equals("Swing")){
+    } else if (newState.equals("Swing")) {
       img = robotImgs[3];
-    }
-    else if(newState.equals("Teleport")){
+    } else if (newState.equals("Teleport")) {
       img = robotImgs[4];
-    }
-    else {
+    } else {
       state = "Normal";
     }
 
-	if (newState.equals("Explode")) {
-		img.play();
-		img.ignoreRepeat();
-	}
-    else img.loop();
+    if (newState.equals("Explode")) {
+      img.play();
+      img.ignoreRepeat();
+    } else img.loop();
   }
 
-  void resetImg(){
+  void resetImg() {
     img = robotImgs[0];
     img.loop();
   }
 
-  void destroyMe(){
+  void destroyMe() {
     active.remove("Robots", this);
     checkLevelFailure();
   }

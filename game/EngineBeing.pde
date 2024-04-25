@@ -1,37 +1,37 @@
-abstract class Being{
+abstract class Being {
   PVector position;
   PVector velocity;
   Shape shape;
   float size;
   PImage img;
-  
-  Being(){
+
+  Being() {
     position = new PVector();
     velocity = new PVector();
     size=0;
     shape = null;
   }
-  
-  
-  Being(PVector p, PVector v, float s){
+
+
+  Being(PVector p, PVector v, float s) {
     position = p;
     velocity = v;
     size = s;
     shape = null;
   }
-  
-  void setShape(Shape s){
+
+  void setShape(Shape s) {
     shape = s;
   }
-  
-  boolean collides(Being other){
+
+  boolean collides(Being other) {
     boolean result = false;
-    if(this.shape != null && other.shape != null){
-      result = this.shape.collides(other.shape);  
+    if (this.shape != null && other.shape != null) {
+      result = this.shape.collides(other.shape);
     }
-    return result; 
+    return result;
   }
-  
+
   abstract void update();
   abstract void render();
 }
