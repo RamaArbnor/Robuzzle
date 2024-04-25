@@ -188,6 +188,7 @@ void createLevelCompletedScreen() {
 
 void createLevel(int number) {
   PImage img = loadImage("assets/background.jpg");
+  levelMusic.stop();
   levelMusic.play();
   levelMusic.amp(0.04);
   Screen level = new Screen(img);
@@ -207,9 +208,13 @@ void createLevel(int number) {
   String[] lines;
   String[] meta;
   int levelCount = 0;
-  while (true) {
-    if (loadStrings("maps/Level" + (levelCount + 1) + ".txt") == null || loadStrings("maps/Level" + (levelCount + 1) + "_meta.txt") == null)  break;
-    levelCount++;
+  try {
+    while (true) {
+      if (loadStrings("maps/Level" + (levelCount + 1) + ".txt") == null || loadStrings("maps/Level" + (levelCount + 1) + "_meta.txt") == null)  break;
+      levelCount++;
+    }
+  }catch(Exception e) {
+    
   }
   if (number <= levelCount) {
     lines = loadStrings("maps/Level" + number + ".txt");
