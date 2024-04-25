@@ -36,7 +36,7 @@ class Screen{
     everyone.remove(b);
     Group g = groups.get(group);
     g.remove(b);
-    if(g.size() == 0) groups.remove(group, g);
+    // if(g.size() == 0) groups.remove(group, g);
     
   }
   

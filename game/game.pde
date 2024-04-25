@@ -196,12 +196,15 @@ void createLevel(int number) {
       switch(c) {
       case '#':
         level.register("Tiles", new Tile(i, j, c+""));
+        level.register("Walls", new Tile(i, j, c+""));
         break;
       case 'L':
         level.register("Tiles", new Tile(i, j, c+""));
+        level.register("Walls", new Tile(i, j, c+""));
         break;
       case 'R':
         level.register("Tiles", new Tile(i, j, c+""));
+        level.register("Walls", new Tile(i, j, c+""));
         break;
       case 'F':
         int destinationCount = Integer.parseInt(meta[currentMeta].trim());
@@ -213,14 +216,17 @@ void createLevel(int number) {
         int delay = Integer.parseInt(spawnMeta[0]);
         int interval = Integer.parseInt(spawnMeta[1]);
         int count = Integer.parseInt(spawnMeta[2]);
-        level.register("Tiles", new SpawnTile(i, j, "S"+"", delay, interval, count, spawnMeta[3].equals("R"), this));
+        level.register("Tiles", new SpawnTile(i, j, c+"", delay, interval, count, spawnMeta[3].equals("R"), this));
+        level.register("Walls", new Tile(i, j, c+""));
         currentMeta++;
         break;
       case '<':
         level.register("Tiles", new Tile(i, j, c+""));
+        level.register("Walls", new Tile(i, j, c+""));
         break;
       case '>':
         level.register("Tiles", new Tile(i, j, c+""));
+        level.register("Walls", new Tile(i, j, c+""));
         break;
       case 'W':
         level.register("Walls", new Tile(i, j, c+""));
@@ -231,12 +237,14 @@ void createLevel(int number) {
         break;
       case 't':
         level.register("Tiles", new Tile(i, j, c+""));
+        level.register("Walls", new Tile(i, j, c+""));
         tilePositions.put(c, new PVector(i, j));
         tpDestPos.add(new PVector(i,j));
         break;
       case '8':
         level.register("Tiles", new Tile(i, j, ""));
         level.register("Swings", new SwingTile(i, j, this));
+        level.register("Walls", new Tile(i, j, c+""));
         break;
       }
     }
@@ -401,4 +409,15 @@ void checkLevelFailure(){
     createGameOverScreen(); 
   }
   
+}
+
+
+void keyPressed() {
+  // Check if the pressed key is the spacebar
+  for(int i = 0; i < active.groups.get("Robots").size(); i++){
+    println("Robot "+active.groups.get("Robots").get(i).position);
+  }
+  for(int i = 0; i < active.groups.get("Tiles").size(); i++){
+    println("Tile " + active.groups.get("Tiles").get(i).position);
+  }
 }

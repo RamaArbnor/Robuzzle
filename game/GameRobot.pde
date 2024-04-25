@@ -30,7 +30,7 @@ class Robot extends Being {
     falling = 0;
     size = 50;
     facingRight = true;
-    gravity = new PVector(0, 3);
+    gravity = new PVector(0, 4);
     selected = false;
     //img = loadImage("assets/solid.png");
     robotImgs = images;
@@ -61,7 +61,7 @@ class Robot extends Being {
       isHovered = false;
     }
 
-    if (position.x > width || position.y > height) {
+    if (position.x > width || position.y > height || position.x < 0 || position.y < 0) {
       //active.remove("Robots", this);
       destroyMe();
       return;
@@ -78,7 +78,7 @@ class Robot extends Being {
     // println("Falling for " + falling);
 
     if (!emerging) {
-      velocity = new PVector(0, 3);
+      velocity = gravity;
       falling += 3;
 
       // if the state is bridge, make bridge on the current tile after falling a bit
@@ -90,6 +90,10 @@ class Robot extends Being {
 
     if (emerging && position.y <= (row-1)*size) {
       emerging = false;
+      falling = 0;
+      position.y = (row-1)*size;
+      println("Emerging done");
+      active.register("Robots", this);
     }
   }
 
@@ -174,13 +178,24 @@ class Robot extends Being {
       }
     }
     }
+    if(active.groups.get("Walls") != null){
+    for (int i = active.groups.get("Walls").size()-1; i >= 0; i--) {
+      if(active.groups.get("Walls") == null || i >= active.groups.get("Walls").size()) continue;
+      Tile t = (Tile) active.groups.get("Walls").get(i);
+
+      if (t.col == col && t.row == row && (t.type.equals("B") || t.type.equals("#") || t.type.equals("L") || t.type.equals("R"))) {
+        active.remove("Walls", t);
+        break;
+      }
+    }
+    }
 
     if(active.groups.get("Robots") != null){
     for (int i = active.groups.get("Robots").size() - 1; i >= 0; i--) {
       if(active.groups.get("Robots") == null || i >= active.groups.get("Robots").size()) continue;
       Robot r = (Robot) active.groups.get("Robots").get(i);
 
-      if (r.position.dist(position) < 51) {
+      if (r.position.dist(position) < 51 && !r.emerging) {
         //active.remove("Robots", r);
         r.destroyMe();
       }

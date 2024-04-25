@@ -12,11 +12,13 @@ public class RobotTileInteractor extends Interactor<Robot, Tile> {
 
   void resolve(Robot r, Tile t) {
     r.walking = true;
-    if (r.falling > 190) {
+    if (r.falling > 130) {
       print("Rash: " + r.falling);
       r.destroyMe();
       //active.remove("Robots", r);
     }
+    else if(r.falling > 40) r.position.y = (t.row-1)*50;
+    
     if (t.type.equals("<")) {
       r.velocity = new PVector(-1, 0);
       r.facingRight = false;
@@ -144,7 +146,7 @@ public class RobotDestinationInteractor extends Interactor<Robot, FinishTile> {
   boolean detect(Robot r, FinishTile f) {
     int row = (int)r.position.y/50;
     int col = (int)r.position.x/50;
-    if (/*First check is debatable*/f.count > 0 && ((r.facingRight && col == f.col && row == f.row) || (!r.facingRight && col + 1  == f.col && row == f.row))) {
+    if (/*First check is debatable*/f.count > 0 && ((r.facingRight && col == f.col && row == f.row) || (!r.facingRight && col == f.col && row == f.row))) {
       return true;
     }
     return false;
