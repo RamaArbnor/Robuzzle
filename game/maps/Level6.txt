@@ -1,0 +1,13 @@
+        8       W  
+                W  
+                W  
+LS####R   LR    W
+                W  
+                W 
+          L#####R
+            
+                  T
+           L######R
+
+    F   
+Lt###R

@@ -73,7 +73,14 @@ void createGameStartScreen() {
     }
   };
 
-  ButtonBeing quit = new ButtonBeing("QUIT", grey, 30, new PVector(width/2-50, 350), white) {
+  ButtonBeing lvSelect = new ButtonBeing("SELECT LV", grey, 30, new PVector(width/2-80, 350), white) {
+    void act() {
+      createLevelSelectionScreen();
+      active = mode.get("levelSelection");
+    }
+  };
+
+  ButtonBeing quit = new ButtonBeing("QUIT", grey, 30, new PVector(width/2-50, 400), white) {
     void act() {
       exit();
     }
@@ -81,6 +88,7 @@ void createGameStartScreen() {
 
   gameStart.register(tut);
   gameStart.register(quit);
+  gameStart.register(lvSelect);
   gameStart.register("assets", new Tile(50, 275, title, 450, 150));
   gameStart.register(start);
 
@@ -88,22 +96,74 @@ void createGameStartScreen() {
 }
 
 void createGameOverScreen() {
-  PImage img = loadImage("assets/startBackground.jpg");
-  Screen gameOver = new Screen(img);
-  gameOver.register(new TextBeing("GAME OVER", darkblue, 50, new PVector(width/2, height/2)));
-
-  ButtonBeing restart = new ButtonBeing("play again", green, 30, new PVector(width/2, 110+height/2), red) {
+  DoubleScreen gameOver = new DoubleScreen(active);
+  PImage title = loadImage("assets/gameOver.png");
+  textSize(30);
+  ButtonBeing tut = new ButtonBeing("RESTART", grey, 30, new PVector((width - textWidth("RESTART") - 20)/2, 300), white) {
     void act() {
-      createLevel(1);
-      active = mode.get("level1");
+      levelMusic.stop();
+      createLevel(currentLevel);
+      active = mode.get("level" + currentLevel);
     }
   };
-  gameOver.register(restart);
+
+  ButtonBeing quit = new ButtonBeing("MAIN MENU", grey, 30, new PVector((width - textWidth("MAIN MENU") - 20)/2, 350), white) {
+    void act() {
+      levelMusic.stop();
+      active = mode.get("gameStart");
+    }
+  };
+  gameOver.register(tut);
+  gameOver.register(quit);
+  gameOver.register("assets", new Tile(50, 275, title, 450, 150));
+
   mode.put("gameOver", gameOver);
+  active = gameOver;
+}
+
+boolean isLastLevel(int level){
+  int nextLevel = level + 1;
+  return loadStrings("maps/Level" + nextLevel + ".txt") == null 
+  || loadStrings("maps/Level" + nextLevel + "_meta.txt") == null;
+
 }
 
 void createLevelCompletedScreen(){
+  DoubleScreen next = new DoubleScreen(active);
+  PImage title = loadImage("assets/levelComplete.png");
 
+  textSize(30);
+  if(!isLastLevel(currentLevel)){
+    ButtonBeing restart = new ButtonBeing("NEXT LEVEL", grey, 30, new PVector((width - textWidth("NEXT LEVEL") - 20)/2, 250), white) {
+      void act() {
+        currentLevel += 1;
+        levelMusic.stop();
+        createLevel(currentLevel);
+        active = mode.get("level" + currentLevel);
+      }
+    };
+    next.register(restart);
+  }
+  ButtonBeing tut = new ButtonBeing("RESTART", grey, 30, new PVector((width - textWidth("RESTART") - 20)/2, 300), white) {
+    void act() {
+      levelMusic.stop();
+      createLevel(currentLevel);
+      active = mode.get("level" + currentLevel);
+    }
+  };
+
+  ButtonBeing quit = new ButtonBeing("MAIN MENU", grey, 30, new PVector((width - textWidth("MAIN MENU") - 20)/2, 350), white) {
+    void act() {
+      levelMusic.stop();
+      active = mode.get("gameStart");
+    }
+  };
+
+  next.register(tut);
+  next.register(quit);
+  next.register("assets", new Tile(50, 275, title, 450, 150));
+
+  active = next;
 }
 
 
@@ -111,7 +171,8 @@ void createLevelCompletedScreen(){
 void createLevel(int number) {
   PImage img = loadImage("assets/background.jpg");
   levelMusic.play();
-  levelMusic.amp(0.02);
+  levelMusic.amp(0.04);
+  levelMusic.amp(0.04);
   Screen level = new Screen(img);
   //level1.register("Tiles" , new Tile(3, 0));
   HashMap<Character, PVector> tilePositions = new HashMap<Character, PVector>();
@@ -120,8 +181,8 @@ void createLevel(int number) {
 
 
   //read a text file called Level1.txt
-  String[] lines = loadStrings("Level" + number + ".txt");
-  String[] meta = loadStrings("Level" + number + "_meta.txt");
+  String[] lines = loadStrings("maps/Level" + number + ".txt");
+  String[] meta = loadStrings("maps/Level" + number + "_meta.txt");
   int currentMeta = 0;
   level.addGroup("Robots"); 
   level.addGroup("Swings");
@@ -135,12 +196,15 @@ void createLevel(int number) {
       switch(c) {
       case '#':
         level.register("Tiles", new Tile(i, j, c+""));
+        level.register("Walls", new Tile(i, j, c+""));
         break;
       case 'L':
         level.register("Tiles", new Tile(i, j, c+""));
+        level.register("Walls", new Tile(i, j, c+""));
         break;
       case 'R':
         level.register("Tiles", new Tile(i, j, c+""));
+        level.register("Walls", new Tile(i, j, c+""));
         break;
       case 'F':
         int destinationCount = Integer.parseInt(meta[currentMeta].trim());
@@ -152,14 +216,17 @@ void createLevel(int number) {
         int delay = Integer.parseInt(spawnMeta[0]);
         int interval = Integer.parseInt(spawnMeta[1]);
         int count = Integer.parseInt(spawnMeta[2]);
-        level.register("Tiles", new SpawnTile(i, j, "S"+"", delay, interval, count, spawnMeta[3].equals("R"), this));
+        level.register("Tiles", new SpawnTile(i, j, c+"", delay, interval, count, spawnMeta[3].equals("R"), this));
+        level.register("Walls", new Tile(i, j, c+""));
         currentMeta++;
         break;
       case '<':
         level.register("Tiles", new Tile(i, j, c+""));
+        level.register("Walls", new Tile(i, j, c+""));
         break;
       case '>':
         level.register("Tiles", new Tile(i, j, c+""));
+        level.register("Walls", new Tile(i, j, c+""));
         break;
       case 'W':
         level.register("Walls", new Tile(i, j, c+""));
@@ -170,12 +237,14 @@ void createLevel(int number) {
         break;
       case 't':
         level.register("Tiles", new Tile(i, j, c+""));
+        level.register("Walls", new Tile(i, j, c+""));
         tilePositions.put(c, new PVector(i, j));
         tpDestPos.add(new PVector(i,j));
         break;
       case '8':
         level.register("Tiles", new Tile(i, j, ""));
         level.register("Swings", new SwingTile(i, j, this));
+        level.register("Walls", new Tile(i, j, c+""));
         break;
       }
     }
@@ -210,6 +279,52 @@ void createLevel(int number) {
   level.register("Robots", "Robots", rri);
   level.register("Robots", "Destinations", rdi);
   mode.put("level"+number, level);
+}
+
+void createLevelSelectionScreen() {
+  PImage img = loadImage("assets/startBackground.jpg");
+  Screen levelSelection = new Screen(img);
+
+  //create a grid 3x2 of buttons for levels
+
+  int x = 120;
+  int y = 100;
+  int w = 200;
+  int h = 100;
+
+  int levelCount = 0;
+  while(true){
+    if(loadStrings("maps/Level" + (levelCount+1) + ".txt") == null || loadStrings("maps/Level" + (levelCount+1) + "_meta.txt") == null)  break;
+    levelCount++;
+  }
+
+  for (int i = 1; i <= levelCount; i++) {
+    final int index = i;
+    ButtonBeing level = new ButtonBeing(i+"", grey, 40, new PVector(x, y), white, 30) {
+      void act() {
+        createLevel(index);
+        active = mode.get("level"+index);
+        currentLevel = index;
+      }
+    };
+    levelSelection.register(level);
+    x += width/4;
+    if (i % 4 == 0) {
+      x = 120;
+      y += 150;
+    }
+  }
+
+  textSize(30);
+  ButtonBeing back = new ButtonBeing("BACK", grey, 30, new PVector(width/2-50, 500), white) {
+    void act() {
+      active = mode.get("gameStart");
+    }
+  };
+
+  levelSelection.register(back);
+
+  mode.put("levelSelection", levelSelection);
 }
 
 //GAME LOOP
@@ -264,6 +379,7 @@ void checkLevelCompletion(){
   }
   if(levelFinished){
     println("BRAVOOOO");
+    createLevelCompletedScreen();
     
   }
 }
@@ -289,7 +405,19 @@ void checkLevelFailure(){
   }
   
   if(robotsCount+robotsToBeSpawned < robotsToArrive){
-    println("DESHTAK");  
+    println("DESHTAK"); 
+    createGameOverScreen(); 
   }
   
+}
+
+
+void keyPressed() {
+  // Check if the pressed key is the spacebar
+  for(int i = 0; i < active.groups.get("Robots").size(); i++){
+    println("Robot "+active.groups.get("Robots").get(i).position);
+  }
+  for(int i = 0; i < active.groups.get("Tiles").size(); i++){
+    println("Tile " + active.groups.get("Tiles").get(i).position);
+  }
 }
