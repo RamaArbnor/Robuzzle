@@ -79,8 +79,8 @@ void createGameStartScreen() {
 
   ButtonBeing tut = new ButtonBeing("TUTORIAL", grey, 30, new PVector(width / 2 - 80, 300), white) {
     void act() {
-      createLevel(1);
-      active= mode.get("level1");
+      createTutorialScreen();
+      active= mode.get("tutorial");
     }
   };
 
@@ -541,6 +541,21 @@ void createLevelMakerScreen() {
   levelMaker.register(mapMaker);
 
   mode.put("levelMaker", levelMaker);
+}
+
+void createTutorialScreen() {
+  PImage img = loadImage("assets/tutorial.png");
+  Screen tutorial = new Screen(img);
+
+  ButtonBeing back = new ButtonBeing("<<", grey, 30, new PVector(width - 50, 10), white) {
+    void act() {
+      active= mode.get("gameStart");
+    }
+  };
+
+  tutorial.register(back);
+
+  mode.put("tutorial", tutorial);
 }
 
 //GAME LOOP
