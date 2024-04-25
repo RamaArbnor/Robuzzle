@@ -499,6 +499,8 @@ void createLevelMakerScreen() {
               }
             }
           }
+          createMyLevelSelectionScreen();
+          active = mode.get("myLevels");
         }
         catch(IOException e) {
         }

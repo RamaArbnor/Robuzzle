@@ -102,6 +102,29 @@ class MapMaker extends Being {
 
 
       if ((!selectedTile.equals("t"))) {
+        if(tiles[i][j].type.equals("T") || tiles[i][j].type.equals("t")) {
+          if (tiles[i][j].type.equals("T")) {
+            int x = (int)((Teleporter)tiles[i][j]).dest.y/50;
+            int y = (int)((Teleporter)tiles[i][j]).dest.x/50;
+            tiles[x][y] = new Tile(x, y, " ");
+            tiles[i][j] = new Tile(i, j, " ");
+          }
+          else {
+            for(int k = 0; k < tiles.length; k++) {
+              for(int l = 0; l < tiles[0].length; l++) {
+                if(tiles[k][l].type.equals("T") && ((Teleporter)tiles[k][l]).dest.equals(tiles[i][j].position)) {
+                  tiles[k][l] = new Tile(k, l, " ");
+                  tiles[i][j] = new Tile(i, j, " ");
+                  break;
+                }
+              }
+            }
+          }
+        }
+
+
+
+
         if (selectedTile.equals("#")) {
           tiles[i][j] = new Tile(i, j, selectedTile);
           tiles[i][j].img = loadImage("assets/solid.png");
@@ -128,7 +151,7 @@ class MapMaker extends Being {
         } else if (selectedTile.equals("S")) {
           println("mrena");
           setTile(i, j, "S");
-        } else if (selectedTile.equals("T")) {
+        } else if (selectedTile.equals("T") && !tiles[i][j].type.equals("t") && !tiles[i][j].type.equals("T")){
           setTile(i, j, "T");
         } else if (selectedTile.equals("F")) {
           setTile(i, j, "F");
@@ -138,7 +161,7 @@ class MapMaker extends Being {
           tiles[i][j] = new Tile(i, j, selectedTile);
         }
       }
-    } else if (selectedTile.equals("t") && tiles[i][j].isHovered && isMapMaker) {
+    } else if (selectedTile.equals("t") && tiles[i][j].isHovered && isMapMaker && !tiles[i][j].type.equals("T") && !tiles[i][j].type.equals("t")) {
       tiles[i][j] = new Tile(i, j, selectedTile);
       teleporter.dest = tiles[i][j].position;
       // teleporter.dest = new PVector(i, j);
