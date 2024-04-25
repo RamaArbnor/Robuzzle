@@ -217,7 +217,6 @@ class Robot extends Being {
     }
     else {
       state = "Normal";
-      img = robotImgs[0];
     }
 
 	if (newState.equals("Explode")) {
