@@ -688,3 +688,44 @@ void mouseWheel(MouseEvent event) {
     }
   }
 }
+
+void keyPressed(){
+	if(isMapMaker && !selectedTile.equals("t")){
+		switch(key){
+			case '1':
+				selectedTile = tileTypes[1];
+				break;
+			case '2':
+				selectedTile = tileTypes[2];
+				break;
+			case '3':
+				selectedTile = tileTypes[3];
+				break;
+			case '4':
+				selectedTile = tileTypes[4];
+				break;
+			case '5':
+				selectedTile = tileTypes[5];
+				break;
+			case '6':
+				selectedTile = tileTypes[6];
+				break;
+			case '7':
+				selectedTile = tileTypes[7];
+				break;
+			case '8':
+				selectedTile = tileTypes[8];
+				break;
+			case '9':
+				selectedTile = tileTypes[9];
+				break;
+			case '0':
+				selectedTile = tileTypes[10];
+				break;
+			default :
+				selectedTile = " ";
+				break;
+
+		}
+	}
+}
